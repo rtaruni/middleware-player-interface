@@ -83,7 +83,7 @@ if(NOT TARGET EntosPlayerFireboltInterface)
 endif()
 
 # Set public headers for the library
-set_target_properties(EntosPlayerFireboltInterface PROPERTIES PUBLIC_HEADER "PlayerThunderInterface.h;PlayerThunderAccessBase.h;PlayerExternalsInterfaceBase.h;PlayerExternalsInterface.h;PlayerRfc.h;playersecmanager/PlayerSecManagerSession.h;playersecmanager/ThunderAccessPlayer.h;playersecmanager/PlayerSecInterface.h;playersecmanager/PlayerSecManager.h;playersecmanager/PlayerMemoryUtils.h")
+set_target_properties(EntosPlayerFireboltInterface PROPERTIES PUBLIC_HEADER "PlayerThunderInterface.h;PlayerThunderAccessBase.h;PlayerExternalsInterfaceBase.h;PlayerExternalsInterface.h;PlayerRfc.h;playersecmanager/PlayerSecManagerSession.h;playersecmanager/ThunderAccessPlayer.h;playersecmanager/PlayerSecInterface.h;playersecmanager/PlayerSecManager.h;playersecmanager/PlayerMemoryUtils.h;Module.h")
 
 if(CMAKE_IARM_MGR)
     set_target_properties(EntosPlayerFireboltInterface PROPERTIES PUBLIC_HEADER "rdk/PlayerExternalsRdkInterface.h")
