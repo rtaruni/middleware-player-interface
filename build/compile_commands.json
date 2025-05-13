@@ -1,0 +1,62 @@
+[
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DBaseConversion_EXPORTS -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/baseConversion/.. -g -fPIC -o baseConversion/CMakeFiles/BaseConversion.dir/_base64.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/baseConversion/_base64.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/baseConversion/_base64.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DBaseConversion_EXPORTS -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/baseConversion/.. -g -fPIC -o baseConversion/CMakeFiles/BaseConversion.dir/base16.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/baseConversion/base16.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/baseConversion/base16.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DPlayerLogManager_EXPORTS -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/playerLogManager/.. -g -fPIC -o playerLogManager/CMakeFiles/PlayerLogManager.dir/PlayerLogManager.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/playerLogManager/PlayerLogManager.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/playerLogManager/PlayerLogManager.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/PlayerExternalsInterface.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/PlayerExternalsInterface.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/PlayerExternalsInterface.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/PlayerRfc.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/PlayerRfc.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/PlayerRfc.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/PlayerExternalUtils.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/PlayerExternalUtils.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/PlayerExternalUtils.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/playersecmanager/PlayerMemoryUtils.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/playersecmanager/PlayerMemoryUtils.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/playersecmanager/PlayerMemoryUtils.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/playersecmanager/PlayerSecInterface.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/playersecmanager/PlayerSecInterface.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/playersecmanager/PlayerSecInterface.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/playersecmanager/PlayerSecManager.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/playersecmanager/PlayerSecManager.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/playersecmanager/PlayerSecManager.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/playersecmanager/ThunderAccessPlayer.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/playersecmanager/ThunderAccessPlayer.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/playersecmanager/ThunderAccessPlayer.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/__/PlayerScheduler.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/PlayerScheduler.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/PlayerScheduler.cpp"
+},
+{
+  "directory": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/build",
+  "command": "/usr/bin/g++ -DEntosPlayerFireboltInterface_EXPORTS -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../playerLogManager -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/../baseConversion -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/.. -I/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/rdk -g -fPIC -o externals/CMakeFiles/EntosPlayerFireboltInterface.dir/PlayerThunderInterface.cpp.o -c /home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/PlayerThunderInterface.cpp",
+  "file": "/home/nhclpt070/AAMP/RDKCENTRAL_AAMP/middleware-player-interface/externals/PlayerThunderInterface.cpp"
+}
+]
