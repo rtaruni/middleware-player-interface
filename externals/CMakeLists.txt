@@ -31,6 +31,8 @@ set(SECMGR_SOURCES playersecmanager/PlayerMemoryUtils.cpp
 
 set(THUNDER_INTERFACE_SRCS PlayerThunderInterface.cpp)
 
+message("CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
+
 #include WPEFRAMEWORK stuff
 if (CMAKE_WPEFRAMEWORK_REQUIRED)
     message("CMAKE_WPEFRAMEWORK_REQUIRED set")
