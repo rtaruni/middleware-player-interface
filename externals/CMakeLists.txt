@@ -3,6 +3,9 @@ project(EntosPlayerFireboltInterface_LIB)
 
 set(MW_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../")
 
+#remove
+set(CMAKE_FIND_DEBUG_MODE TRUE)
+
 find_package(PkgConfig REQUIRED)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -31,6 +34,7 @@ set(SECMGR_SOURCES playersecmanager/PlayerMemoryUtils.cpp
 
 set(THUNDER_INTERFACE_SRCS PlayerThunderInterface.cpp)
 
+#remove
 message("CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
 #include WPEFRAMEWORK stuff
@@ -40,6 +44,12 @@ if (CMAKE_WPEFRAMEWORK_REQUIRED)
     set(LIB_EXT_DEFINES "${LIB_EXT_DEFINES} -DUSE_CPP_THUNDER_PLUGIN_ACCESS")
     set(THUNDER_INTERFACE_SRCS ${THUNDER_INTERFACE_SRCS} rdk/PlayerThunderAccess.cpp Module.cpp)
     find_package(WPEFramework REQUIRED)
+
+    #remove
+    message(STATUS "WPEFramework_FOUND: ${WPEFRAMEWORK_FOUND}")
+    message(STATUS "WPEFramework_INCLUDE_DIRS: ${WPEFRAMEWORK_INCLUDE_DIRS}")
+    message(STATUS "WPEFramework_LIBRARIES: ${WPEFRAMEWORK_LIBRARIES}")
+
 
     if (WPEFRAMEWORK_FOUND)
         message("WPEFRAMEWORK_FOUND = ${WPEFRAMEWORK_FOUND}")
