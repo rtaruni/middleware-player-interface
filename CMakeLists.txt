@@ -118,6 +118,7 @@ install(FILES closedcaptions/CCTrackInfo.h
 	closedcaptions/PlayerCCManager.h
 	PlayerUtils.h
 	GstUtils.h
+	PlayerMetadata.hpp
 	drm/ocdm/opencdmsessionadapter.h
 	drm/aes/Aes.h
 	drm/DrmMemorySystem.h drm/DrmSessionManager.h drm/DrmSystems.h
