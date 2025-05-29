@@ -129,6 +129,7 @@ install(FILES closedcaptions/CCTrackInfo.h
 	drm/PlayerHlsDrmSessionInterface.h
 	drm/PlayerHlsDrmSessionInterfaceBase.h
 	drm/helper/VanillaDrmHelper.h
+	drm/HlsOcdmBridgeInterface.h
 	vendor/SocInterface.h
 	subtitle/subtitleParser.h
 	subtec/subtecparser/WebVttSubtecParser.hpp
