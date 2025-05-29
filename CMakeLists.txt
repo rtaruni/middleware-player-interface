@@ -131,6 +131,7 @@ install(FILES closedcaptions/CCTrackInfo.h
 	subtitle/subtitleParser.h
 	subtec/subtecparser/WebVttSubtecParser.hpp
 	subtec/subtecparser/TtmlSubtecParser.hpp
+	subtec/subtecparser/WebvttSubtecDevInterface.hpp
 	playerisobmff/playerisobmffbuffer.h
 	playerisobmff/playerisobmffbox.h
 	DESTINATION include)
