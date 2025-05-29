@@ -117,6 +117,7 @@ install(FILES closedcaptions/CCTrackInfo.h
 	drm/DrmUtils.h
 	closedcaptions/PlayerCCManager.h
 	PlayerUtils.h
+	GstUtils.h
 	drm/ocdm/opencdmsessionadapter.h
 	drm/aes/Aes.h
 	drm/DrmMemorySystem.h drm/DrmSessionManager.h drm/DrmSystems.h
@@ -124,6 +125,7 @@ install(FILES closedcaptions/CCTrackInfo.h
 	drm/DrmSession.h drm/ClearKeyDrmSession.h drm/DrmSessionFactory.h drm/ocdm/opencdmsessionadapter.h
 	drm/helper/DrmHelper.h drm/HlsDrmBase.h
 	drm/DrmConstants.h
+	drm/PlayerHlsDrmSessionInterface.h
 	subtitle/subtitleParser.h
 	subtec/subtecparser/WebVttSubtecParser.hpp
 	subtec/subtecparser/TtmlSubtecParser.hpp
