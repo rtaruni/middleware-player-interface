@@ -135,6 +135,17 @@ install(FILES closedcaptions/CCTrackInfo.h
 	subtec/subtecparser/TtmlSubtecParser.hpp
 	playerisobmff/playerisobmffbuffer.h
 	playerisobmff/playerisobmffbox.h
+	GstUtils.h
+	PlayerMetadata.hpp
+	drm/PlayerHlsDrmSessionInterface.h
+	drm/PlayerHlsDrmSessionInterfaceBase.h
+	drm/helper/VanillaDrmHelper.h
+	drm/HlsOcdmBridgeInterface.h
+	drm/HlsDrmSessionManager.h
+	vendor/SocInterface.h
+	subtec/subtecparser/WebvttSubtecDevInterface.hpp
+	subtec/subtecparser/TextStyleAttributes.h
+	subtec/libsubtec/SubtecPacket.hpp
 	DESTINATION include)
 
 set(SOURCES
