@@ -146,6 +146,7 @@ install(FILES closedcaptions/CCTrackInfo.h
 	subtec/subtecparser/WebvttSubtecDevInterface.hpp
 	subtec/subtecparser/TextStyleAttributes.h
 	subtec/libsubtec/SubtecPacket.hpp
+	subtec/libsubtec/SubtecChannel.hpp
 	DESTINATION include)
 
 set(SOURCES
