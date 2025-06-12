@@ -146,7 +146,6 @@ install(FILES closedcaptions/CCTrackInfo.h
 	subtec/subtecparser/WebvttSubtecDevInterface.hpp
 	subtec/subtecparser/TextStyleAttributes.h
 	subtec/libsubtec/SubtecPacket.hpp
-	subtec/libsubtec/SubtecChannel.hpp
 	DESTINATION include)
 
 set(SOURCES
@@ -345,7 +344,7 @@ set_target_properties(playergstinterface PROPERTIES COMPILE_FLAGS "${LIBPLAYERGS
 
 install(TARGETS playergstinterface
     LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION lib/include
+    PUBLIC_HEADER DESTINATION include
 )
 target_link_libraries(subtec playerlogmanager)
 target_link_libraries(playergstinterface ${GSTVIDEO_LIBRARIES} ${LIBPLAYERGSTINTERFACE_DEPENDS})
