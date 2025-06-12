@@ -19,7 +19,7 @@ index cc5d9ad..a1ff731 100644
 +        SET_CC_ATTRIBUTES = 18,
          FLUSH = 19,
 +        TTML_INFO = 20,
-
+ 
          MAX,
          INVALID = 0xFFFFFFFF,
 @@ -252,11 +253,12 @@ const std::array<const char*, static_cast<int>(Packet::Type::MAX)> packetTypeStr
@@ -35,5 +35,5 @@ index cc5d9ad..a1ff731 100644
 +        "FLUSH",
 +        "TTML_INFO"
  };
-
+ 
  inline std::ostream& operator<<(std::ostream& out, Packet::Type packetType)

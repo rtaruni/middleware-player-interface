@@ -22,8 +22,12 @@
  * @brief Handles operation with OCDM session to handle DRM License data
  */
 #include "opencdmsessionadapter.h"
+
 #include "DrmHelper.h"
 #include "PlayerUtils.h"
+
+#include "ProcessHandler.h"
+#include "PlayerExternalsInterface.h"
 
 #include <assert.h>
 #include <iostream>
@@ -313,39 +317,25 @@ int OCDMSessionAdapter::processDRMKey(DrmData* key, uint32_t timeout)
 		{
 			//  SAGE Hang .. Need to restart the wpecdmi process and then self kill player to recover
 			MW_LOG_WARN("processKey: Update() returned HWError.Restarting process...");
-			int systemResult = -1;
+			ProcessHandler processHandler;
 			// In Release another process handles opencdm which needs to be restarts .In Sprint this process is not available.
 			// So check if process exists before killing it .
-			systemResult = system("pgrep WPEcdmi");
-			if(systemResult == 0)
+			if (processHandler.KillProcess("WPEFramework")) /** Current OCDM process **/
 			{
-				systemResult = system("pkill -9 WPEcdmi");
-				if(systemResult != 0)
-				{
-					MW_LOG_WARN("Unable to shutdown WPEcdmi process.%d", systemResult);
-				}
+				MW_LOG_WARN("OCDM HWError reported.. Killed the process WPEFramework for recovery..");
 			}
-			else
+			else 
 			{
-				// check for WPEFramework process
-				systemResult = system("pgrep WPEFramework");
-				if(systemResult == 0)
+				if(processHandler.KillProcess("WPEcdmi")) /** Backword compatibility **/
 				{
-					systemResult = system("pkill -9 WPEFramework");
-					if(systemResult != 0)
-					{
-						MW_LOG_WARN("Unable to shutdown WPEFramework process.%d", systemResult);
-					}
+					MW_LOG_WARN("OCDM HWError reported.. Killed the process WPEcdmi for recovery..");
 				}
-			}
+			} 
 
 			// wait for 5sec for all the logs to be flushed
 			sleep(5);
 			// Now kill self
-			if(kill(getpid(), SIGKILL) < 0)
-			{
-				MW_LOG_WARN("Kill Failed = %d", errno);  //CID:88415 - checked return
-			}
+			processHandler.SelfKill();
 		}
 		else {
 #ifdef USE_THUNDER_OCDM_API_0_2

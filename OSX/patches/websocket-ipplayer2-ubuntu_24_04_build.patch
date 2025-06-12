@@ -15,5 +15,6 @@ index 3ff9a2f..4e0b925 100644
  #include <ostream>
  #include <vector>
 +#include <cstdint>
-
+ 
  struct sockaddr_storage;
+ 

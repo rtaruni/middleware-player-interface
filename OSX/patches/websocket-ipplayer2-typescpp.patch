@@ -10,5 +10,7 @@ index 05ff8e2..8aa2db5 100644
  #include "Serializer.h"
  #include "Utils.h"
 +#include <array>
-
+ 
  namespace ipp2 {
+ 
+

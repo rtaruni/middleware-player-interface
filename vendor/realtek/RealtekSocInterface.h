@@ -43,7 +43,7 @@ class RealtekSocInterface : public SocInterface
 		 * @return True if audio fragments should be synchronized, false otherwise.
 		 */
 		bool IsAudioFragmentSyncSupported()override{return true;}
-		
+
 		/*@brief returns true if video stats required from sink otherwise false*/
 		bool IsPlaybackQualityFromSink() override {return true;}
 
@@ -100,7 +100,7 @@ class RealtekSocInterface : public SocInterface
 		 * @brief Get SoC volume property name.
 		 * @return Volume property name.
 		 */
-		void SetAudioProperty(const char **volume, const char **mute, bool& isSinkBinVolume)override;
+		void SetAudioProperty(const char * &volume, const char * &mute, bool& isSinkBinVolume)override;
 
 		/**
 		 * @brief Sets the playback rate for the given GStreamer elements.

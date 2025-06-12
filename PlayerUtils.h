@@ -17,14 +17,13 @@
  * limitations under the License.
  */
 
-/**
- * @file PlayerUtils.h
- * @brief Utility functions and macros for player-related operations such as string handling,
- *        base64 encoding/decoding, thread identification, and URL resolution.
- */
-
 #ifndef __PLAYER_UTILS_H__
 #define __PLAYER_UTILS_H__
+
+/**
+ * @file PlayerUtils.h
+ * @brief Context-free common utility functions.
+ */
 
 #include <string>
 #include <sstream>
@@ -35,115 +34,81 @@
 #include <iostream>
 #include <cstring>
 
-/**
- * @brief Safely deletes a pointer and sets it to NULL.
- */
+//Delete non-array object
 #define MW_SAFE_DELETE(ptr) { delete(ptr); ptr = NULL; }
-
-/**
- * @brief Safely deletes an array pointer and sets it to NULL.
- */
+//Delete Array object
 #define MW_SAFE_DELETE_ARRAY(ptr) { delete [] ptr; ptr = NULL; }
 
-/**
- * @brief Writes a byte as two hexadecimal ASCII characters.
- * @param DST Destination pointer to write the ASCII characters.
- * @param BYTE Byte value to convert.
- */
+
 #define WRITE_HASCII( DST, BYTE ) \
 { \
-    *DST++ = "0123456789abcdef"[BYTE>>4]; \
-    *DST++ = "0123456789abcdef"[BYTE&0xf]; \
+	*DST++ = "0123456789abcdef"[BYTE>>4]; \
+	*DST++ = "0123456789abcdef"[BYTE&0xf]; \
 }
 
 /**
- * @brief Checks if a string starts with a given prefix.
- * @param inputStr The input string.
- * @param prefix The prefix to check.
- * @return True if inputStr starts with prefix, false otherwise.
+ * @fn player_StartsWith
+ *
+ * @param[in] inputStr - Input string
+ * @param[in] prefix - substring to be searched
  */
-bool player_StartsWith(const char *inputStr, const char *prefix);
+bool player_StartsWith( const char *inputStr, const char *prefix);
 
 /**
- * @brief Encodes binary data into a Base64 URL-safe string.
- * @param src Pointer to the binary data.
- * @param len Length of the binary data.
- * @return Pointer to the encoded Base64 URL-safe string.
+ * @fn base64_URL_Encode
+ * @param src pointer to first byte of binary data to be encoded
+ * @param len number of bytes to encode
  */
 char *base64_URL_Encode(const unsigned char *src, size_t len);
 
 /**
- * @brief Decodes a Base64 URL-safe string into binary data.
- * @param src Pointer to the Base64 string.
- * @param len Pointer to store the length of the decoded data.
- * @param srcLen Length of the Base64 string.
- * @return Pointer to the decoded binary data.
+ * @fn base64_URL_Decode
+ * @param src pointer to cstring containing base64-URL-encoded data
+ * @param len receives byte length of returned pointer, or zero upon failure
+ * @param srcLen source data length
  */
 unsigned char *base64_URL_Decode(const char *src, size_t *len, size_t srcLen);
 
-/**
- * @brief Retrieves the thread ID from a std::thread object.
- * @param t The std::thread object.
- * @return The thread ID as a size_t.
- */
-std::size_t GetThreadID(const std::thread &t);
+std::size_t GetThreadID( const std::thread &t );
+std::size_t GetThreadID( void );
+std::size_t GetThreadID( const pthread_t &t );
 
-/**
- * @brief Retrieves the current thread ID.
- * @return The thread ID as a size_t.
- */
-std::size_t GetThreadID(void);
-
-/**
- * @brief Retrieves the thread ID from a pthread_t object.
- * @param t The pthread_t object.
- * @return The thread ID as a size_t.
- */
-std::size_t GetThreadID(const pthread_t &t);
-
-/**
- * @brief Retrieves a printable thread ID from a pthread_t object.
- * @param t The pthread_t object.
- * @return A printable thread ID as a size_t.
- */
-std::size_t GetPrintableThreadID(const pthread_t &t);
-
-/**
- * @brief Retrieves a printable thread ID for the current thread.
- * @return A printable thread ID as a size_t.
- */
+std::size_t GetPrintableThreadID( const pthread_t &t );
 std::size_t GetPrintableThreadID();
-
 /**
- * @brief Resolves a relative URI against a base URL.
- * @param dst Output string for the resolved URL.
- * @param base The base URL.
- * @param uri The relative URI.
- * @param bPropagateUriParams Whether to propagate URI parameters.
+ * @fn ResolveURL
+ *
+ * @param[out] dst - Created URL
+ * @param[in] base - Base URL
+ * @param[in] uri - File path
+ * @param[in] bPropagateUriParams - flag to use base uri params
+ * @retval void
  */
-void ResolveURL(std::string& dst, std::string base, const char *uri, bool bPropagateUriParams);
-
+void ResolveURL(std::string& dst, std::string base, const char *uri , bool bPropagateUriParams);
 /**
- * @brief Gets the current system time in milliseconds.
- * @return Current time in milliseconds.
+ * @fn GetCurrentTimeMS
+ * @brief Get the current time in milliseconds
+ *
+ * @return The current time in milliseconds
  */
 long long GetCurrentTimeMS(void);
-
 /**
- * @brief Resolves a relative URI against a base URL (player-specific version).
- * @param dst Output string for the resolved URL.
- * @param base The base URL.
- * @param uri The relative URI.
- * @param bPropagateUriParams Whether to propagate URI parameters.
+ * @brief Resolve file URL from the base and file path
  */
-void player_ResolveURL(std::string& dst, std::string base, const char *uri, bool bPropagateUriParams);
+void player_ResolveURL(std::string& dst, std::string base, const char *uri , bool bPropagateUriParams);
 
 /**
- * @brief Parses the protocol from a URI string.
- * @param uri The URI string.
- * @return Pointer to the protocol string.
+ * @brief parse leading protocol from uri if present
+ * @param[in] uri manifest/ fragment uri
+ * @retval return pointer just past protocol (i.e. http://) if present (or) return NULL uri doesn't start with protcol
  */
 static const char * ParseUriProtocol(const char *uri);
+
+/**
+ * @fn trim
+ * @param[in][out] src Buffer containing string
+ */
+void trim(std::string& src);
 
 #endif  /* __PLAYER_UTILS_H__ */
 

@@ -126,7 +126,7 @@ void PlayerExternalsRdkInterface::SetHDMIStatus()
     dsHdcpProtocolVersion_t hdcpReceiverProtocol     = dsHDCP_VERSION_MAX;
     dsHdcpProtocolVersion_t hdcpCurrentProtocol      = dsHDCP_VERSION_MAX;
 
-
+    
 
 
     try {
@@ -327,33 +327,10 @@ bool PlayerExternalsRdkInterface::GetActiveInterface()
     return isInterfaceWifi;
 }
 
-bool PlayerExternalsRdkInterface::IsLiveLatencyCorrectionSupported()
-{
-    bool IsMS12V2 = true;
-    try {
-		//Get the HDMI port
-		device::Manager::Initialize();
-		std::string strVideoPort = device::Host::getInstance().getDefaultVideoPortName();
-		::device::VideoOutputPort &vPort = ::device::Host::getInstance().getVideoOutputPort(strVideoPort);
-		int caps;
-		vPort.getAudioOutputPort().getAudioCapabilities(&caps);
-		if(((caps & dsAUDIOSUPPORT_MS12V2) != dsAUDIOSUPPORT_MS12V2))
-		{
-			IsMS12V2 = false;
-			MW_LOG_INFO("MS12V2 Audio not supported in this device\n");
-		}
-		device::Manager::DeInitialize();
-	}
-	catch (...) {
-		MW_LOG_WARN("DeviceSettings exception caught\n");
-	}
-	return IsMS12V2 ;
-}
-
 static void getActiveInterfaceEventHandler (const char *owner, IARM_EventId_t eventId, void *data, size_t len)
 {
 	static char previousInterface[20] = {'\0'};
-
+	
 
 	if (strcmp (owner, "NET_SRV_MGR") != 0)
 		return;
@@ -375,13 +352,13 @@ static void getActiveInterfaceEventHandler (const char *owner, IARM_EventId_t ev
 	{
 		isInterfaceWifi = false;
 	}
-
-
+    
+	
 }
 
 char * PlayerExternalsRdkInterface::GetTR181Config(const char * paramName, size_t & iConfigLen)
 {
-
+    
 	char *  strConfig = NULL;
 	IARM_Result_t result;
 	HOSTIF_MsgData_t param;

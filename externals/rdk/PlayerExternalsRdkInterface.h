@@ -43,7 +43,7 @@
 //class representing IARM interface in rdk
 class PlayerExternalsRdkInterface : public PlayerExternalsInterfaceBase
 {
-
+    
        dsHdcpProtocolVersion_t m_hdcpCurrentProtocol;
     public:
 
@@ -95,19 +95,12 @@ class PlayerExternalsRdkInterface : public PlayerExternalsInterfaceBase
          */
         static bool IsActiveStreamingInterfaceWifi();
 
-        /**
-         * @fn IsLiveLatencyCorrectionSupported
-         * @brief Checks if Live Latency Correction is supported
-         * @return True if supported. False if not.
-         */
-        bool IsLiveLatencyCorrectionSupported() override;
-
         // Singleton for object creation
-
+	
         /**
          * @fn GetPlayerExternalsRdkInterfaceInstance
          * @retval PlayerExternalsRdkInterface object
-         */
+         */	
         static PlayerExternalsRdkInterface * GetPlayerExternalsRdkInterfaceInstance();
 
         /**
@@ -128,7 +121,7 @@ class PlayerExternalsRdkInterface : public PlayerExternalsInterfaceBase
 
         /**
          * @fn GetActiveInterface
-         * @brief Is current active interface wifi?
+         * @brief Is current active interface wifi? 
          * @return True if wifi. False, if not.
          */
         bool GetActiveInterface();

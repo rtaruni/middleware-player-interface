@@ -12,29 +12,29 @@ index 7fcdba3..f0218da 100644
 +++ b/dvbsubdecoder/include/dvbsubdecoder/BasicAllocator.hpp
 @@ -27,6 +27,7 @@
  #define DVBSUBDECODER_BASICALLOCATOR_HPP_
-
+ 
  #include <exception>
 +#include <cstdint>
-
+ 
  #include "Allocator.hpp"
-
+ 
 diff --git a/subttxrend-common/src/StringUtils.cpp b/subttxrend-common/src/StringUtils.cpp
 index b295150..4e8aa02 100644
 --- a/subttxrend-common/src/StringUtils.cpp
 +++ b/subttxrend-common/src/StringUtils.cpp
 @@ -47,11 +47,11 @@ std::string StringUtils::trim(const std::string& value)
-
+ 
      trimmed.erase(trimmed.begin(),
              std::find_if(trimmed.begin(), trimmed.end(),
 -                    std::not1(std::ptr_fun<int, bool>(isSpace))));
 +                    [](unsigned char c){ return !std::isspace(c); }));
-
+ 
      trimmed.erase(
              std::find_if(trimmed.rbegin(), trimmed.rend(),
 -                    std::not1(std::ptr_fun<int, bool>(isSpace))).base(),
 +                    [](unsigned char c){ return !std::isspace(c); }).base(),
              trimmed.end());
-
+ 
      return trimmed;
 diff --git a/subttxrend-gfx/src/PrerenderedFontImpl.hpp b/subttxrend-gfx/src/PrerenderedFontImpl.hpp
 index 63500f4..74618cc 100644
@@ -45,7 +45,7 @@ index 63500f4..74618cc 100644
  #include <memory>
  #include <vector>
 +#include <cstdint>
-
+ 
  #include <ft2build.h>
  #include FT_FREETYPE_H
 diff --git a/subttxrend-gfx/waylandcpp/src/waylandcpp-client/File.cpp b/subttxrend-gfx/waylandcpp/src/waylandcpp-client/File.cpp
@@ -57,7 +57,7 @@ index 27c6ae6..a41415d 100644
  #include <cassert>
  #include <cerrno>
 +#include <cstdint>
-
+ 
  namespace waylandcpp
  {
 diff --git a/subttxrend-ttml/src/DataDumper.h b/subttxrend-ttml/src/DataDumper.h
@@ -65,11 +65,11 @@ index c643eeb..207d7ab 100644
 --- a/subttxrend-ttml/src/DataDumper.h
 +++ b/subttxrend-ttml/src/DataDumper.h
 @@ -26,6 +26,7 @@
-
+ 
  #include <string>
  #include <vector>
 +#include <cstdint>
-
+ 
  namespace subttxrend
  {
 diff --git a/subttxrend-ttml/src/Parser/StyleSet.cpp b/subttxrend-ttml/src/Parser/StyleSet.cpp
@@ -81,6 +81,6 @@ index 92fd2f3..8d41db0 100644
  #include <utility>
  #include <sstream>
 +#include <iterator>
-
+ 
  namespace subttxrend
  {

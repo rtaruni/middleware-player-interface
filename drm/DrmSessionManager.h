@@ -113,9 +113,8 @@ struct configs{
     bool mRuntimeDRMConfig;
     int mContentProtectionDataUpdateTimeout;
     bool mEnablePROutputProtection;
-    bool  mPropagateURIParam;
+    bool  mPropagateURIParam; 
     bool mIsFakeTune;
-    bool mIsWVKIDWorkaround;
 };
 /**
  *  @class	DrmSessionManager
@@ -407,63 +406,6 @@ public:
         {
               ProfileUpdateCb = callback;
         };
-
-	using ProfileBeginCallback = std::function<void(int)>;
-	ProfileBeginCallback profileBeginCb;
-	void RegisterProfBegin(const ProfileBeginCallback callback)
-	{
-		profileBeginCb = callback;
-	};
-
-	using ProfileEndCallback = std::function<void(int streamType)>;
-	ProfileEndCallback profileEndCb;
-	void RegisterProfEnd(const ProfileEndCallback callback)
-	{
-		profileEndCb = callback;
-	};
-
-	using ProfileErrorCallback = std::function<void(int streamType, int result)>;
-	ProfileErrorCallback profileErrorCb;
-	void RegisterProfError(const ProfileErrorCallback callback)
-	{
-		profileErrorCb = callback;
-	};
-
-	using LAProfileBeginCallback = std::function<void(int)>;
-	LAProfileBeginCallback laprofileBeginCb;
-	void RegisterLAProfBegin(const LAProfileBeginCallback callback)
-	{
-		laprofileBeginCb = callback;
-	};
-
-	using LAProfileEndCallback = std::function<void(int streamType)>;
-	LAProfileEndCallback laprofileEndCb;
-	void RegisterLAProfEnd(const LAProfileEndCallback callback)
-	{
-		laprofileEndCb = callback;
-	};
-
-	using LAProfileErrorCallback = std::function<void(void *ptr)>;
-	LAProfileErrorCallback laprofileErrorCb;
-	void RegisterLAProfError(const LAProfileErrorCallback callback)
-	{
-		laprofileErrorCb = callback;
-	};
-
-	using SetFailureCallback = std::function<void(void *ptr, int err)>;
-	SetFailureCallback setfailureCb;
-	void RegisterSetFailure(const SetFailureCallback callback)
-	{
-		setfailureCb = callback;
-	};
-
-	//using DrmMetaDataCallback =	std::function<void *()>;
-	using DrmMetaDataCallback = std::function<std::shared_ptr<void>()>;
-	DrmMetaDataCallback DrmMetaDataCb;
-	void RegisterMetaDataCb(const DrmMetaDataCallback callback)
-	{
-		DrmMetaDataCb = callback;
-	};
 	/*
 	 * @brief Register Content Protection Update callback to application 
 	 */
@@ -483,10 +425,15 @@ public:
 	 */
         void UpdateDRMConfig(
                        bool useSecManager,
+                //       int licenseRetryWaitTime,
+                //       int drmNetworkTimeout,
+                //       int curlConnectTimeout,
+                //       bool curlLicenseLogging,
+                //       bool runtimeDRMConfig,
+                //       int contentProtectionDataUpdateTimeout,
                        bool enablePROutputProtection,
                        bool propagateURIParam,
-                       bool isFakeTune,
-		       bool wideVineKIDWorkaround);
+                       bool isFakeTune);
 
 
 };

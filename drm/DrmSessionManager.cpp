@@ -82,14 +82,12 @@ void DrmSessionManager::UpdateDRMConfig(
 		bool useSecManager,
 		bool enablePROutputProtection,
 		bool propagateURIParam,
-		bool isFakeTune,
-		bool wideVineKIDWorkaround)
+		bool isFakeTune)
 {
 	m_drmConfigParam->mUseSecManager = useSecManager;
 	m_drmConfigParam->mEnablePROutputProtection = enablePROutputProtection;
 	m_drmConfigParam->mPropagateURIParam = propagateURIParam;
 	m_drmConfigParam->mIsFakeTune = isFakeTune;
-	m_drmConfigParam->mIsWVKIDWorkaround = wideVineKIDWorkaround;
 
 }
 /**

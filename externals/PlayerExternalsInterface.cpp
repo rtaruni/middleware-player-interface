@@ -45,7 +45,7 @@ PlayerExternalsInterface::PlayerExternalsInterface()
     {
         m_pIarmInterface = new FakePlayerIarmInterface();
     }
-
+    
 #else
     m_pIarmInterface = new FakePlayerIarmInterface();
 #endif
@@ -70,20 +70,6 @@ PlayerExternalsInterface::~PlayerExternalsInterface()
 bool PlayerExternalsInterface::IsSourceUHD()
 {
     return m_pIarmInterface->IsSourceUHD();
-}
-
-/**
- * @brief check if Live Latency COrrection is supported
- */
-bool PlayerExternalsInterface::IsLiveLatencyCorrectionSupported()
-{
-    bool bRet = false;;
-    if(!IsContainerEnvironment())
-    {
-	    bRet = m_pIarmInterface->IsLiveLatencyCorrectionSupported();
-    }
-
-    return bRet;
 }
 
 /**
@@ -132,7 +118,7 @@ char * PlayerExternalsInterface::GetTR181PlayerConfig(const char * paramName, si
     {
 	    sRet = m_pIarmInterface->GetTR181Config(paramName, iConfigLen);
     }
-
+    
     return sRet;
 }
 
@@ -200,3 +186,4 @@ bool PlayerExternalsInterface::IsConfigWifiCurlHeader()
 #endif
     return bRet;
 }
+

@@ -32,11 +32,6 @@
 #include "PlayerJsonObject.h"                     // For JSON parsing
 
 
-/**
- * @brief Default constructor for the TextStyleAttributes class.
- *
- * Initializes a new instance of TextStyleAttributes with default values.
- */
 TextStyleAttributes::TextStyleAttributes()
 {
 }

@@ -40,7 +40,7 @@ class BrcmSocInterface : public SocInterface
 		 * @return True if AC4 should be disabled, false otherwise.
 		 */
 		bool IsSupportedAC4()override{return true;}
-		
+
 		/**
 		 * @brief Check if PTS restamping is supported by the platform.
 		 *
@@ -54,7 +54,7 @@ class BrcmSocInterface : public SocInterface
 		 * @brief Get SoC volume property name.
 		 * @return Volume property name.
 		 */
-		void SetAudioProperty(const char **volume, const char **mute, bool& isSinkBinVolume)override;
+		void SetAudioProperty(const char * &volume, const char * &mute, bool& isSinkBinVolume)override;
 
 		/**
 		 * @brief Sets the playback rate for the given GStreamer elements.
@@ -143,9 +143,6 @@ class BrcmSocInterface : public SocInterface
 		 * @param isSub Flag indicating whether the content is a subtitle.
 		 */
 		void SetPlaybackFlags(gint &flags, bool isSub)override;
-
-		void DumpDiagnosis()override;
-
 };
 
 

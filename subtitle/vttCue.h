@@ -19,7 +19,7 @@
 
 /**
  * @file vttCue.h
- *
+ * 
  * @brief Provides data structure to hold a WebVTT cue data
  *
  */
@@ -29,43 +29,26 @@
 
 #include <string>
 
+
 /**
- * @struct VTTCue
- * @brief Represents a single WebVTT subtitle cue.
- * 
- * A VTTCue contains the timing, text, and optional settings for a subtitle entry.
- */
+* \struct      VTTCue
+* \brief       Data structure to hold a VTT cue
+*
+* This is the data structure to store parsed WebVTT cues in AAMP
+*/
 struct VTTCue
 {
-    /**
-     * @brief Constructs a VTTCue with the given parameters.
-     * 
-     * @param startTime Start time of the cue in seconds.
-     * @param duration Duration of the cue in seconds.
-     * @param text Subtitle text content.
-     * @param settings Optional cue settings (e.g., position, alignment).
-     */
-    VTTCue(double startTime, double duration, std::string text, std::string settings)
-        : mStart(startTime), mDuration(duration), mText(text), mSettings(settings) {}
+	VTTCue(double startTime, double duration, std::string text, std::string settings):
+		mStart(startTime), mDuration(duration),
+		mText(text), mSettings(settings)
+	{
 
-    /**
-     * @brief Start time of the cue in seconds.
-     */
-    double mStart;
+	}
 
-    /**
-     * @brief Duration of the cue in seconds.
-     */
-    double mDuration;
-
-    /**
-     * @brief Text content of the subtitle cue.
-     */
-    std::string mText;
-
-    /**
-     * @brief Optional settings string for cue rendering (e.g., alignment, position).
-     */
-    std::string mSettings;
+	double mStart;
+	double mDuration;
+	std::string mText;
+	std::string mSettings;
 };
+
 #endif /* __VTT_CUE_H__ */

@@ -107,8 +107,9 @@ struct Configs
 	bool progressLogging;
 	bool monitorAV;
 	bool disableUnderflow;
-	int monitorAvsyncThresholdMs;
-	int monitorJumpThresholdMs;
+	int monitorAvsyncThresholdPositiveMs;
+	int monitorAvsyncThresholdNegativeMs;
+	int monitorAvJumpThresholdMs;
 };
 
 typedef struct GstPlaybackQualityData
@@ -139,7 +140,6 @@ class InterfacePlayerRDK
 		Configs *m_gstConfigParam;
 		char *mDrmSystem;
 		void *mEncrypt;
-		void *mDRMSessionManager;
 		std::map<InterfaceCB, std::function<void()>> callbackMap;
 		std::map<InterfaceCB, std::function<void(int)>> setupStreamCallbackMap;
 		PlayerScheduler mScheduler;
@@ -232,7 +232,7 @@ class InterfacePlayerRDK
 		 */
 		void EnablePendingPlayState();
 		/*
-		 *@brief Registers need data callback from application
+		 *@brief Registers need data callback from application 
 		 */
 		void RegisterNeedDataCb(const HandleNeedDataCb &callback)
 		{
@@ -240,7 +240,7 @@ class InterfacePlayerRDK
 		}
 
 		/*
-		 *@brief Registers enough data callback from application
+		 *@brief Registers enough data callback from application 
 		 */
 		void RegisterEnoughDataCb(const HandleEnoughDataCb &callback)
 		{
@@ -713,7 +713,7 @@ class InterfacePlayerRDK
 		/**
 		 * @brief get the encryption from application to share it with PlayReadyDecryptor Plugin
 		 */
-		void setEncryption(void *mEncrypt, void *mDRMSessionManager);
+		void setEncryption(void *mEncrypt);
 
 		/**
 		 * @brief Removes all active GStreamer probes.
