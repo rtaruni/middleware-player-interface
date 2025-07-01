@@ -471,7 +471,7 @@ TEST_F(DrmHelperTests, TestWidevineHelperParsePsshDrmMetaData)
 			// AES-CTR full sample encryption
 		}
 	};
-	
+
 	for( int i=0; i<ARRAY_SIZE(testData); i++ )
 	{
 		const char *src = testData[i].psshData;
@@ -492,20 +492,20 @@ TEST_F(DrmHelperTests, TestWidevineHelperParsePsshDrmMetaData)
 		{ // at least one keyid expected
 			ASSERT_TRUE(rc);
 		}
-		
+
 		std::vector<uint8_t> initData;
 		widevineHelper->createInitData(initData);
 		for( int j=0; j<initData.size(); j++ )
 		{
 			ASSERT_EQ(psshDataPtr[j], initData[j] );
 		}
-		
+
 		std::map<int, std::vector<uint8_t>> keyIDs;
 		widevineHelper->getKeys(keyIDs);
-		
+
 		printf( "protection scheme=0x%08x\n", widevineHelper->getProtectionScheme() );
 		ASSERT_EQ( widevineHelper->getProtectionScheme(), testData[i].protectionScheme );
-		
+
 		for( int iKey=0; iKey<4; iKey++ )
 		{
 			const char *expected = testData[i].expectedKey[iKey];
@@ -529,7 +529,7 @@ TEST_F(DrmHelperTests, TestWidevineHelperParsePsshDrmMetaData)
 		widevineHelper->setDrmMetaData(metaData);
 		contentMetadata = widevineHelper->getDrmMetaData();
 		ASSERT_EQ(metaData, contentMetadata);
-		
+
 		free( psshDataPtr );
 	}
 }
