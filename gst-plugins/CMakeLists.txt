@@ -62,7 +62,7 @@ if(CMAKE_IARM_MGR)
 endif()
 
 set(GST_MIDDLEWARE_SOURCES gstinit.cpp
-	../../middleware/playerLogManager/PlayerLogManager.cpp)
+	${MW_ROOT}/playerLogManager/PlayerLogManager.cpp)
 
 if(CMAKE_CDM_DRM)
         message("CMAKE_CDM_DRM set")
