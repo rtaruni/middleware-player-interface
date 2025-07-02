@@ -224,3 +224,4 @@ bool PlayerJsonObject::isObject(const std::string& name)
 {
 	return false;
 }
+

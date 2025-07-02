@@ -29,7 +29,7 @@
 
 #ifdef USE_SECCLIENT
 #include "aampDrmSessionFactory.h"
-#include "DrmSessionManager.h"
+#include "DRMSessionManager.h"
 #include "AampClearKeyHelper.h"
 #include "open_cdm.h"
 

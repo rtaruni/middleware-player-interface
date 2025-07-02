@@ -471,7 +471,7 @@ gchar *gst_object_get_name(GstObject *object)
 	if (object && object->name)
 	{
 		TRACE_FUNC_ARG("%s \n", object->name);
-		// See SafeName() in gstplayer.cpp
+		// See SafeName() in aampgstplayer.cpp
 		char *ptr = object->name ;
 		char *g_ptr = (char *)malloc(strlen(ptr) + 1);
 		strcpy(g_ptr, ptr);

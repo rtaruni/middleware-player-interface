@@ -251,7 +251,6 @@ void ResolveURL(std::string& dst, std::string base, const char *uri , bool bProp
 	}
 }
 
-
 /**
  * @brief Trim a string
  */

@@ -78,7 +78,6 @@ protected:
 	}
 
 public:
-	/* Table with different parameter sets to be passed into mAAMPGstPlayer->Configure(...) */
 	typedef struct
 	{
 		GstStreamOutputFormat auxFormat;
@@ -86,7 +85,7 @@ public:
 		bool forwardAudioToAux;
 		bool setReadyAfterPipelineCreation;
 		bool enableRectangleProperty;
-		bool usingWesteros;
+		bool usingWesteros; 
 		bool usingRialto;
 	} Config_Params;
 
@@ -111,11 +110,6 @@ public:
 			printf("StopCallback status: %d\n", status);
 		});
 
-/*		mInterfaceGstPlayer->busMessageCallback([this](BusEventData data)
-		{
-			printf("busMessageCallback called\n");
-		});
-*/
 		mInterfaceGstPlayer->RegisterBusEvent([this](const BusEventData& event) {
 			printf("busMessageCallback called\n");
 		});
@@ -125,7 +119,6 @@ public:
 	{
 		if (isPipelineSetup)
 		{
-			// AAMPGstPlayer::DestroyPipeline()
 			EXPECT_CALL(*g_mockGStreamer, gst_object_unref(&gst_element_pipeline))
 				.Times(1);
 			EXPECT_CALL(*g_mockGStreamer, gst_object_unref(&bus))
@@ -172,7 +165,7 @@ public:
 		mInterfaceGstPlayer->m_gstConfigParam->enableRectPropertyCfg = setup->enableRectangleProperty;
 
 		// CreatePipeline()
-
+		
 		EXPECT_CALL(*g_mockGStreamer, gst_pipeline_new(StrEq("testPipeline")))
 			.WillOnce(Return(&gst_element_pipeline));
 
@@ -192,7 +185,7 @@ public:
 		EXPECT_CALL(*g_mockGStreamer, gst_query_new_position(GST_FORMAT_TIME))
 			.WillOnce(Return(&query));
 		// End CreatePipeline()
-
+		
 		if (setup->setReadyAfterPipelineCreation)
 		{
 			EXPECT_CALL(*g_mockGStreamer, gst_element_get_state(&gst_element_pipeline, _, _, _))
@@ -246,14 +239,6 @@ public:
 
 		EXPECT_CALL(*g_mockGStreamer, gst_element_set_state(&gst_element_pipeline, GST_STATE_PLAYING))
 			.WillOnce(Return(GST_STATE_CHANGE_SUCCESS));
-
-		/*mAAMPGstPlayer->Configure(FORMAT_VIDEO_ES_H264,
-								  FORMAT_AUDIO_ES_AAC,
-								  setup->auxFormat,
-								  FORMAT_SUBTITLE_WEBVTT,
-								  setup->bESChangeStatus,
-								  setup->forwardAudioToAux,
-								  setup->setReadyAfterPipelineCreation);*/
 
 		mInterfaceGstPlayer->ConfigurePipeline(GST_FORMAT_VIDEO_ES_H264,
 										GST_FORMAT_AUDIO_ES_AAC,
@@ -348,7 +333,7 @@ TEST_F(GstPlayerTests, Constructor)
 //		bool forwardAudioToAux;
 //		bool setReadyAfterPipelineCreation;
 //		bool enableRectangleProperty;
-//		bool usingWesteros;
+//		bool usingWesteros; 
 //		bool usingRialto;
 //	} Config_Params;
 
@@ -370,7 +355,7 @@ TEST_P(GstPlayerTestsP, Configure)
 	int idx = GetParam();
 	ASSERT_TRUE(idx < (sizeof(tbl) / sizeof(tbl[0])));
 	GstPlayerTests::Config_Params *setup = &tbl[idx];
-
+	
 	ConstructAMPGstPlayer();
 
 	SetupPipeline(setup);
@@ -390,7 +375,7 @@ TEST_P(GstPlayerTestsP, SetAudioVolume)
 	SetupPipeline(setup);
 
 	// Code under test
-
+	
 	// Muted, and volume not set (note this is not the case for non-rialto AMLOGIC builds)
 	int volume = 0;
 	EXPECT_CALL(*g_mockGLib, g_object_set(NotNull(), StrEq("mute"), Matcher<int>(true))).Times(1);
@@ -442,7 +427,7 @@ TEST_F(GstPlayerTests, TimerAdd)
 	gpointer user_data = nullptr;
 	int repeatTimeout = 100;
 	guint taskId = 0;
-	GstElement dummyelement;
+	GstElement dummyelement; 
 	mInterfaceGstPlayer = new InterfacePlayerRDK();
 	ConstructAMPGstPlayer();
 
@@ -487,7 +472,7 @@ TEST_F(GstPlayerTests, TimerRemove)
 
 	// Expectations
 
-	mInterfaceGstPlayer = new InterfacePlayerRDK();
+	mInterfaceGstPlayer = new InterfacePlayerRDK(); 
 	EXPECT_CALL(*g_mockGLib, g_source_remove(_)) .Times(0);
 
 	// Code under test - taskId = 0 timer not added to be removed
@@ -509,7 +494,7 @@ TEST_F(GstPlayerTests, SetAudioVolume_NoSink)
 	ConstructAMPGstPlayer();
 
 	// Code under test
-
+	
 	// No sink, so no call to set volume or mute expected
 	int volume = 0;
 	EXPECT_CALL(*g_mockGLib, g_object_set(NotNull(), StrEq("mute"), Matcher<int>(_))).Times(0);
@@ -616,7 +601,7 @@ TEST_F(GstPlayerTests, MonitorAV )
 	};
 	ConstructAMPGstPlayer();
 	SetupPipeline(&tbl[0]);
-
+	
 	EXPECT_CALL(*g_mockGStreamer, gst_element_get_state(&gst_element_pipeline, _, _, _))
 		.WillRepeatedly(DoAll(
 			SetArgPointee<1>(GST_STATE_PLAYING),
@@ -625,7 +610,7 @@ TEST_F(GstPlayerTests, MonitorAV )
 	for( int idx=0; idx<sizeof(avpos)/sizeof(avpos[0]); idx++ )
 	{
 		EXPECT_CALL( *g_mockPlayerUtils, GetCurrentTimeMS()).WillOnce(DoAll(Return(1000+idx*250)));
-
+		
 		EXPECT_CALL(*g_mockGStreamer, gst_element_query_position( _, _, _))
 			.WillOnce(DoAll(
 							SetArgPointee<2>(G_GINT64_CONSTANT(1000000)*avpos[idx][eGST_MEDIATYPE_VIDEO]),
@@ -637,3 +622,5 @@ TEST_F(GstPlayerTests, MonitorAV )
 	}
 	DestroyAMPGstPlayer();
 }
+
+
