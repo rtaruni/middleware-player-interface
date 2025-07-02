@@ -145,6 +145,7 @@ install(FILES closedcaptions/CCTrackInfo.h
 	DESTINATION include)
 
 set(SOURCES
+	mp4demux.cpp
 	InterfacePlayerRDK.cpp
 	SocUtils.cpp
 	GstUtils.cpp
