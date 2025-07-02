@@ -32,13 +32,13 @@ From the *utests* folder run:
 ```
 ## To run tests and generate combined report in json format
 
-./run.sh -e 
+./run.sh -e
 
 Report can be found in utests/TestReport.json
 
 ## Check line coverage in microtests:
 
-For code coverage install-aamp.sh -c 
+For code coverage install-aamp.sh -c
 must have been run first to generate a baseline set of aamp files.
 
 From the *utests* directory, run:
