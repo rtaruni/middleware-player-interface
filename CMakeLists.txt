@@ -152,7 +152,6 @@ set(SOURCES
 	InterfacePlayerRDK.cpp
 	SocUtils.cpp
 	GstUtils.cpp
-	PlayerMetadata.hpp
 	GstHandlerControl.cpp
 	PlayerScheduler.cpp
 	gstplayertaskpool.cpp
