@@ -109,7 +109,7 @@ set(LIBPLAYERGSTINTERFACE_HEADERS
 	vendor/realtek/RealtekSocInterface.h
 	vendor/brcm/BrcmSocInterface.h
 	vendor/default/DefaultSocInterface.h
-        subtitle/vttCue.h
+    subtitle/vttCue.h
 	ProcessHandler.h
 	)
 
@@ -119,6 +119,8 @@ install(FILES closedcaptions/CCTrackInfo.h
 	GstHandlerControl.h
 	InterfacePlayerRDK.h
 	SocUtils.h
+	GstUtils.h
+	PlayerMetadata.hpp
 	drm/DrmUtils.h
 	closedcaptions/PlayerCCManager.h
 	PlayerUtils.h
@@ -150,6 +152,7 @@ set(SOURCES
 	InterfacePlayerRDK.cpp
 	SocUtils.cpp
 	GstUtils.cpp
+	PlayerMetadata.hpp
 	GstHandlerControl.cpp
 	PlayerScheduler.cpp
 	gstplayertaskpool.cpp
