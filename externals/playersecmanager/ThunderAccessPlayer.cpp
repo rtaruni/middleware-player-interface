@@ -27,7 +27,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #ifdef USE_CPP_THUNDER_PLUGIN_ACCESS
-#ifdef DISABLE_SECURITY_TOKEN
+#ifndef DISABLE_SECURITY_TOKEN
 #include <securityagent/SecurityTokenUtil.h>
 #endif
 #pragma GCC diagnostic pop
