@@ -40,7 +40,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
     string(STRIP ${OS_LD_FLAGS} OS_LD_FLAGS)
     set(CLI_LD_FLAGS "${CLI_LD_FLAGS} -lgstvideo-1.0")
     string(STRIP ${CLI_LD_FLAGS} CLI_LD_FLAGS)
-    #set(AAMP_OS_SOURCES cocoa_window.mm) #to be decided
 endif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
 
 find_package (Threads REQUIRED)
@@ -69,7 +68,7 @@ if(CMAKE_CDM_DRM)
 	set(GST_MIDDLEWARE_SOURCES "${GST_MIDDLEWARE_SOURCES}" drm/gst/gstcdmidecryptor.cpp drm/gst/gstplayreadydecryptor.cpp drm/gst/gstwidevinedecryptor.cpp drm/gst/gstclearkeydecryptor.cpp drm/gst/gstverimatrixdecryptor.cpp)
 endif()
 
-message("AAMP consolidated build, enabling gst_subtec")
+message("Player consolidated build, enabling gst_subtec")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGST_SUBTEC_ENABLED")
 add_subdirectory(gst_subtec)
 
@@ -102,21 +101,10 @@ if (CMAKE_AMLOGIC_SOC)
 	target_link_libraries (gstplugin gstsvpext)
 endif()
 
-#TODO Remove once PrivateInstance_Player is compilation flag independent.
-#if(CMAKE_USE_SECCLIENT)
-#	message("CMAKE_USE_SECCLIENT set")
-#	set(LIBPLUGIN_DEFINES "${LIBPLUGIN_DEFINES} -DUSE_SECCLIENT")
-#elseif(CMAKE_USE_SECMANAGER)
-#	message("CMAKE_USE_SECMANAGER set")
-#	set(LIBPLUGIN_DEFINES "${LIBPLUGIN_DEFINES} -DUSE_SECMANAGER")
-#endif()
-
 install(TARGETS gstplugin DESTINATION lib/gstreamer-1.0)
 
 if(CMAKE_WPEWEBKIT_JSBINDINGS)
 	message("CMAKE_WPEWEBKIT_JSBINDINGS set")
-	#target_link_libraries (gstplugin aampjsbindings)
-	#set(LIBPLUGIN_DEFINES "${LIBPLUGIN_DEFINES} -DAAMP_JSCONTROLLER_ENABLED")
 endif()
 
 set_target_properties(gstplugin PROPERTIES COMPILE_FLAGS "${LIBPLUGIN_DEFINES}")
