@@ -44,7 +44,7 @@ struct MonitorAVState
 	long long tLastReported;
 	long long tLastSampled;
 	const char *description;
-	gint64 av_position[2];
+	signed long av_position[2];
 	bool happy;
 
 	MonitorAVState() : tLastReported(0), tLastSampled(0), description(nullptr), happy(false)
