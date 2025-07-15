@@ -135,7 +135,7 @@ endif()
 
 # Set initial public headers for the library
 set_target_properties(playerfbinterface PROPERTIES PUBLIC_HEADER 
-  "PlayerThunderInterface.h;PlayerThunderAccessBase.h;PlayerExternalsInterfaceBase.h;PlayerExternalsInterface.h;PlayerRfc.h;contentsecuritymanager/ContentSecurityManagerSession.h;contentsecuritymanager/PlayerSecInterface.h;contentsecuritymanager/ContentSecurityManager.h;contentsecuritymanager/PlayerMemoryUtils.h;Module.h")
+  "PlayerExternalUtils.h;PlayerThunderInterface.h;PlayerThunderAccessBase.h;PlayerExternalsInterfaceBase.h;PlayerExternalsInterface.h;PlayerRfc.h;contentsecuritymanager/ContentSecurityManagerSession.h;contentsecuritymanager/PlayerSecInterface.h;contentsecuritymanager/ContentSecurityManager.h;contentsecuritymanager/PlayerMemoryUtils.h;Module.h")
 
 if(CMAKE_IARM_MGR)
     # Append additional header(s) for IARM_MGR
