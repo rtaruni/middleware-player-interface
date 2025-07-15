@@ -1,12 +1,25 @@
-
 # LibPlayerGstInterface CMakeLists.txt
+# If not stated otherwise in this file or this component's license file the
+# following copyright and licenses apply:
+#
+# Copyright 2025 RDK Management
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 cmake_minimum_required(VERSION 3.5)
 project(Playergstinterface)
 
 set(CMAKE_CXX_STANDARD 14)
-
-find_package(PkgConfig REQUIRED)
 
 option(DISABLE_SECURITY_TOKEN "Disable security token" OFF)
 
@@ -14,6 +27,7 @@ if(DISABLE_SECURITY_TOKEN)
   add_definitions(-DDISABLE_SECURITY_TOKEN)
 endif()
 
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(GST REQUIRED gstreamer-plugins-base-1.0)
 pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
 pkg_check_modules(GSTREAMERBASE REQUIRED gstreamer-app-1.0)
@@ -24,14 +38,13 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} subtitle playerisobmff isobmff
 	closedcaptions
 	closedcaptions/subtec
 	drm drm/helper
-	drm/ocdm
-	externals/playersecmanager)
+	drm/ocdm)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/externals)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/externals/playersecmanager)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/externals/contentsecuritymanager)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/externals/rdk)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/baseConversion)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/playerLogManager)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/mp4demux)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/playerJsonObject)
 
 
 set(LIBPLAYERGSTINTERFACE_DEPENDS ${OS_LD_FLAGS} ${UUID_LINK_LIBRARIES} ${LIBCJSON_LINK_LIBRARIES} ${GSTREAMERBASE_LINK_LIBRARIES} ${GSTREAMER_LINK_LIBRARIES} ${CURL_LINK_LIBRARIES} ${LIBDASH_LINK_LIBRARIES} ${LibXml2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} -ldl)
@@ -39,6 +52,7 @@ set(LIBPLAYERGSTINTERFACE_DEPENDS ${OS_LD_FLAGS} ${UUID_LINK_LIBRARIES} ${LIBCJS
 #shoud be made part of PLAYERGSTINTERFACE cmakelists
 add_subdirectory(baseConversion)
 add_subdirectory(playerLogManager)
+add_subdirectory(playerJsonObject)
 add_subdirectory(externals)
 
 set(LIBPLAYERGSTINTERFACE_SOURCES ${LIBPLAYERGSTINTERFACE_SOURCES} closedcaptions/PlayerCCManager.cpp PlayerUtils.cpp)
@@ -49,7 +63,7 @@ set(SUBTEC_CLASS_SOURCES playerisobmff/playerisobmffbox.cpp
 	subtec/subtecparser/TtmlSubtecParser.cpp
 	subtec/subtecparser/TextStyleAttributes.cpp
 	subtec/subtecparser/WebvttSubtecDevInterface.cpp
-	playerjsonobject/PlayerJsonObject.cpp
+	playerJsonObject/PlayerJsonObject.cpp
 	)
 
 if(CMAKE_PLATFORM_UBUNTU)
@@ -83,15 +97,15 @@ if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
     set(OS_LD_FLAGS "${OS_LD_FLAGS} -F${osxSdkPath}/System/Library/Frameworks -framework Cocoa -L${osxSdkPath}/../MacOSX.sdk/usr/lib -L.libs/lib -L/usr/local/lib/")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isysroot ${osxSdkPath}/../MacOSX.sdk -I/usr/local/include")
     string(STRIP ${OS_LD_FLAGS} OS_LD_FLAGS)
-    pkg_check_modules(OPENSSL REQUIRED openssl)
+	pkg_check_modules(OPENSSL REQUIRED openssl)
     set(LIBPLAYERGSTINTERFACE_DEPENDS ${LIBPLAYERGSTINTERFACE_DEPENDS} "${OPENSSL_LINK_LIBRARIES}")
     link_directories(${OPENSSL_LIBRARY_DIRS})
-    link_directories(${GSTREAMER_LIBRARY_DIRS})
+	link_directories(${GSTREAMER_LIBRARY_DIRS})
     set(CMAKE_THREAD_LIBS_INIT "-lpthread")
     set(CMAKE_HAVE_THREADS_LIBRARY 1)
     pkg_check_modules(GLIB REQUIRED GLib-2.0)
     include_directories(${GLIB_INCLUDE_DIRS})
-    pkg_check_modules(LIBCJSON REQUIRED libcjson)
+	pkg_check_modules(LIBCJSON REQUIRED libcjson)
     include_directories(${LIBCJSON_INCLUDE_DIRS})
     set(LIBPLAYERGSTINTERFACE_DEPENDS ${LIBPLAYERGSTINTERFACE_DEPENDS} "${LIBCJSON_LINK_LIBRARIES}")
     # This is .libs/lib/pkgconfig which picks up all locally built dependencies
@@ -128,7 +142,7 @@ set(LIBPLAYERGSTINTERFACE_HEADERS
 	vendor/realtek/RealtekSocInterface.h
 	vendor/brcm/BrcmSocInterface.h
 	vendor/default/DefaultSocInterface.h
-    subtitle/vttCue.h
+        subtitle/vttCue.h
 	ProcessHandler.h
 	)
 
@@ -138,8 +152,6 @@ install(FILES closedcaptions/CCTrackInfo.h
 	GstHandlerControl.h
 	InterfacePlayerRDK.h
 	SocUtils.h
-	GstUtils.h
-	PlayerMetadata.hpp
 	drm/DrmUtils.h
 	closedcaptions/PlayerCCManager.h
 	PlayerUtils.h
@@ -148,7 +160,8 @@ install(FILES closedcaptions/CCTrackInfo.h
 	drm/DrmMemorySystem.h drm/DrmSessionManager.h drm/DrmSystems.h
 	drm/DrmData.h drm/DrmInfo.h drm/DrmMediaFormat.h drm/DrmCallbacks.h
 	drm/DrmSession.h drm/ClearKeyDrmSession.h drm/DrmSessionFactory.h drm/ocdm/opencdmsessionadapter.h
-	drm/helper/DrmHelper.h drm/HlsDrmBase.h
+	drm/helper/DrmHelper.h
+	drm/HlsDrmBase.h
 	drm/DrmConstants.h
 	drm/PlayerHlsDrmSessionInterface.h
 	drm/PlayerHlsDrmSessionInterfaceBase.h
@@ -167,7 +180,6 @@ install(FILES closedcaptions/CCTrackInfo.h
 	DESTINATION include)
 
 set(SOURCES
-	mp4demux/mp4demux.cpp
 	InterfacePlayerRDK.cpp
 	SocUtils.cpp
 	GstUtils.cpp

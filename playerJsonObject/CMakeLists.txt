@@ -17,20 +17,34 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-project(baseconversion)
+project(playerjsonobject)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(..)
+include(FindPkgConfig)
+pkg_check_modules(LIBCJSON REQUIRED libcjson)
+link_directories(${LIBCJSON_LIBRARY_DIRS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../baseConversion)
+set(PlayerJsonObject_SRC PlayerJsonObject.cpp)
 
-set(BaseConversion_SRC _base64.cpp base16.cpp)
+add_library(playerjsonobject SHARED ${PlayerJsonObject_SRC})
 
-add_library(baseconversion SHARED ${BaseConversion_SRC})
-
-set_target_properties(baseconversion PROPERTIES PUBLIC_HEADER "_base64.h;base16.h")
-
-# Install the library and its headers
-install(TARGETS baseconversion
-		DESTINATION lib
-		PUBLIC_HEADER DESTINATION include
+target_include_directories(playerjsonobject PUBLIC
+    ${LIBCJSON_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../baseConversion
 )
+
+target_link_libraries(playerjsonobject PUBLIC
+    ${LIBCJSON_LINK_LIBRARIES}
+    baseconversion
+)
+
+set_target_properties(playerjsonobject PROPERTIES
+    PUBLIC_HEADER "PlayerJsonObject.h"
+)
+
+install(TARGETS playerjsonobject
+    DESTINATION lib
+    PUBLIC_HEADER DESTINATION include
+)
+

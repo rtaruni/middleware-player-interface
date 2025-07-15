@@ -53,6 +53,7 @@ struct MonitorAVState
 		av_position[1] = 0; // Audio position
 	}
 };
+
 /**
  * @brief Function pointer for the idle task
  * @param[in] arg - Arguments
