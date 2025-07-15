@@ -45,6 +45,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/externals/rdk)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/baseConversion)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/playerLogManager)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/playerJsonObject)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/mp4demux)
 
 
 set(LIBPLAYERGSTINTERFACE_DEPENDS ${OS_LD_FLAGS} ${UUID_LINK_LIBRARIES} ${LIBCJSON_LINK_LIBRARIES} ${GSTREAMERBASE_LINK_LIBRARIES} ${GSTREAMER_LINK_LIBRARIES} ${CURL_LINK_LIBRARIES} ${LIBDASH_LINK_LIBRARIES} ${LibXml2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} -ldl)
@@ -181,6 +182,7 @@ install(FILES closedcaptions/CCTrackInfo.h
 
 set(SOURCES
 	InterfacePlayerRDK.cpp
+	mp4demux/mp4demux.cpp
 	SocUtils.cpp
 	GstUtils.cpp
 	GstHandlerControl.cpp
