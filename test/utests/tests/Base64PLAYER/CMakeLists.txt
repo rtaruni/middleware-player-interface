@@ -19,7 +19,7 @@ include(GoogleTest)
 
 set(PLAYER_ROOT "../../../../")
 set(UTESTS_ROOT "../../")
-set(EXEC_NAME Base64PLAYER)
+set(EXEC_NAME Base64AAMP)
 
 include_directories(${PLAYER_ROOT}/baseConversion)
 include_directories(${PLAYER_ROOT} ${PLAYER_ROOT}/drm ${PLAYER_ROOT}/drm/helper ${PLAYER_ROOT}/subtitle ${PLAYER_ROOT}/middleware/subtitle)

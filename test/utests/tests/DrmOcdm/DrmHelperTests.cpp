@@ -26,15 +26,11 @@
 #include <iomanip>
 #include <algorithm>
 #include <iterator>
-#include "_base64.h"
+#include "base64.h"
+#include "AampConfig.h"
+#include "../../../gstTestHarness/mp4demux.hpp"
 #include "DrmHelper.h"
 
-#define MultiChar_Constant(Text) \
-	( (static_cast<uint32_t>(Text[0]) << 24) | \
-		(static_cast<uint32_t>(Text[1]) << 16) | \
-		(static_cast<uint32_t>(Text[2]) << 8)  | \
-		(static_cast<uint32_t>(Text[3])) )
-//#Conversion of text in to decimal value
 struct CreateHelperTestData
 {
 	DrmMethod method;

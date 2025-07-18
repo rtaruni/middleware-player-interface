@@ -30,7 +30,7 @@
 #include <vector>
 #include <gst/gst.h>
 #include "DrmUtils.h"
-#include "ContentSecurityManagerSession.h"
+#include "PlayerSecManagerSession.h"
 
 using namespace std;
 
@@ -65,7 +65,7 @@ class DrmSession
 protected:
 	std::string m_keySystem;
 	bool m_OutputProtectionEnabled;
-	ContentSecurityManagerSession mContentSecurityManagerSession;
+	PlayerSecManagerSession mPlayerSecManagerSession;
 public:
 	/**
 	 * @brief Create drm session with given init data
@@ -170,7 +170,7 @@ public:
 #if defined(USE_OPENCDM_ADAPTER)
 	virtual void setKeyId(const std::vector<uint8_t>& keyId) {};
 #endif
-	void setSecManagerSession(ContentSecurityManagerSession session){mContentSecurityManagerSession=session;}
-	ContentSecurityManagerSession getSecManagerSession() const { return mContentSecurityManagerSession;}
+	void setSecManagerSession(PlayerSecManagerSession session){mPlayerSecManagerSession=session;}
+	PlayerSecManagerSession getSecManagerSession() const { return mPlayerSecManagerSession;}
 };
 #endif

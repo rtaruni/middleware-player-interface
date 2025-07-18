@@ -21,9 +21,11 @@ cmake_minimum_required (VERSION 2.6)
 project (GST-PLUGINS)
 #find_package(GStreamer 1.4 REQUIRED)
 #add_subdirectory(jsbindings)
-find_package(PkgConfig REQUIRED)
 
 set(MW_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../")
+
+
+find_package(PkgConfig REQUIRED)
 
 message("using gstreamer-1.0")
 pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
@@ -38,7 +40,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
     string(STRIP ${OS_LD_FLAGS} OS_LD_FLAGS)
     set(CLI_LD_FLAGS "${CLI_LD_FLAGS} -lgstvideo-1.0")
     string(STRIP ${CLI_LD_FLAGS} CLI_LD_FLAGS)
-    #set(AAMP_OS_SOURCES cocoa_window.mm) #to be decided
 endif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
 
 find_package (Threads REQUIRED)
@@ -48,7 +49,7 @@ include_directories(${GSTREAMER_INCLUDE_DIRS})
 include_directories(${CURL_INCLUDE_DIRS})
 include_directories(${GSTREAMERBASE_INCLUDE_DIRS})
 include_directories(${MW_ROOT}/closedcaptions)
-include_directories(${MW_ROOT}/)
+include_directories(${MW_ROOT})
 
 set(GST_COMMON_DEPENDENCIES ${OS_LD_FLAGS} ${GSTREAMERBASE_LIBRARIES} ${GSTREAMER_LIBRARIES} ${CURL_LIBRARIES} ${CLI_LD_FLAGS} -ldl -luuid ${SEC_CLIENT_LIB})
 
@@ -67,7 +68,7 @@ if(CMAKE_CDM_DRM)
 	set(GST_MIDDLEWARE_SOURCES "${GST_MIDDLEWARE_SOURCES}" drm/gst/gstcdmidecryptor.cpp drm/gst/gstplayreadydecryptor.cpp drm/gst/gstwidevinedecryptor.cpp drm/gst/gstclearkeydecryptor.cpp drm/gst/gstverimatrixdecryptor.cpp)
 endif()
 
-message("AAMP consolidated build, enabling gst_subtec")
+message("Player consolidated build, enabling gst_subtec")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGST_SUBTEC_ENABLED")
 add_subdirectory(gst_subtec)
 
@@ -90,7 +91,7 @@ else()
 endif()
 
 target_link_libraries (gstplugin playergstinterface ${GST_COMMON_DEPENDENCIES})
-target_include_directories (gstplugin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../ ${CMAKE_CURRENT_SOURCE_DIR}/../../drm ${CMAKE_CURRENT_SOURCE_DIR}/../../drm/helper ${CMAKE_CURRENT_SOURCE_DIR}/../../tsb/api ${CMAKE_CURRENT_SOURCE_DIR}/../../downloader ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/gst-plugins ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/vendor ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/drm ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/drm/ocdm ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/drm/helper  ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/externals/contentsecuritymanager)
+target_include_directories (gstplugin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../ ${CMAKE_CURRENT_SOURCE_DIR}/../../drm ${CMAKE_CURRENT_SOURCE_DIR}/../../drm/helper ${CMAKE_CURRENT_SOURCE_DIR}/../../tsb/api ${CMAKE_CURRENT_SOURCE_DIR}/../../downloader ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/gst-plugins ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/vendor ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/drm ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/drm/ocdm ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/drm/helper  ${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/externals/playersecmanager)
 
 set(LIBPLUGIN_DEFINES "${PLUGIN_DEFINES}")
 
@@ -100,21 +101,10 @@ if (CMAKE_AMLOGIC_SOC)
 	target_link_libraries (gstplugin gstsvpext)
 endif()
 
-#TODO Remove once PrivateInstance_Player is compilation flag independent.
-#if(CMAKE_USE_SECCLIENT)
-#	message("CMAKE_USE_SECCLIENT set")
-#	set(LIBPLUGIN_DEFINES "${LIBPLUGIN_DEFINES} -DUSE_SECCLIENT")
-#elseif(CMAKE_USE_SECMANAGER)
-#	message("CMAKE_USE_SECMANAGER set")
-#	set(LIBPLUGIN_DEFINES "${LIBPLUGIN_DEFINES} -DUSE_SECMANAGER")
-#endif()
-
 install(TARGETS gstplugin DESTINATION lib/gstreamer-1.0)
 
 if(CMAKE_WPEWEBKIT_JSBINDINGS)
 	message("CMAKE_WPEWEBKIT_JSBINDINGS set")
-	#target_link_libraries (gstplugin aampjsbindings)
-	#set(LIBPLUGIN_DEFINES "${LIBPLUGIN_DEFINES} -DAAMP_JSCONTROLLER_ENABLED")
 endif()
 
 set_target_properties(gstplugin PROPERTIES COMPILE_FLAGS "${LIBPLUGIN_DEFINES}")

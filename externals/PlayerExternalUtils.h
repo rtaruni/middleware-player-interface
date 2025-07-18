@@ -31,8 +31,5 @@
  * @return True if running in container environment, false otherwise.
  */
 bool IsContainerEnvironment(void);
-/**
- * @brief Sleep for given milliseconds
- */
-void ms_sleep(int milliseconds);
+
 #endif

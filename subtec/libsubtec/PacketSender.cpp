@@ -21,7 +21,6 @@
 
 #include "SubtecPacket.hpp"
 #include "PacketSender.hpp"
-#include "PlayerLogManager.h" // Included for MW_LOG
 
 #define MAX_SNDBUF_SIZE (8*1024*1024)
 
@@ -186,7 +185,7 @@ bool PacketSender::initSenderTask()
 {
     try {
         mSendThread = std::thread(runWorkerTask, this);
-        MW_LOG_INFO("Thread created for runWorkerTask [%zx]", std::hash<std::thread::id>()(mSendThread.get_id()));
+        MW_LOG_INFO("Thread created for runWorkerTask [%zx]", GetPrintableThreadID(mSendThread));
     }
     catch (const std::exception& e) {
         MW_LOG_WARN("PacketSender: Error in initSenderTask: %s", e.what());

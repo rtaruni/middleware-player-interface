@@ -963,7 +963,7 @@ void InterfacePlayerRDK::DisconnectSignals()
 	{
 		std::set<gpointer> elements = GetElementPointers(interfacePlayerPriv->gstPrivateContext->pipeline);
 
-		for(const auto& data: interfacePlayerPriv->gstPrivateContext->mCallBackIdentifiers)
+		for(auto data: interfacePlayerPriv->gstPrivateContext->mCallBackIdentifiers)
 		{
 			if (data.instance == nullptr)
 			{
