@@ -28,4 +28,4 @@ jobs:
          sudo apt-get update --fix-missing
          sudo apt-get install -y libboost-timer1.74-dev
          sudo apt-get install -y software-properties-common
-         yes | ./install-middleware.sh -s -k file
+         yes | ./install-middleware.sh -s subtec 
