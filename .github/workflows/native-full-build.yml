@@ -1,0 +1,58 @@
+name: Build Component in Native Environment
+
+on:
+  pull_request:
+    branches: [ develop , main ]
+    paths: ['**/*.c', '**/*.cpp', '**/*.cc', '**/*.cxx', '**/*.h', '**/*.hpp', '**/*.sh']
+
+jobs:
+  build-player-interface-on-pr:
+    name: Build player-interface component in github rdkcentral
+    runs-on: ubuntu-latest
+      #    container:
+      # image: ghcr.io/rdkcentral/docker-rdk-ci:latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up .netrc for RDK Gerrit
+        run: |
+          echo "machine code.rdkcentral.com\n" >> ~/.netrc
+          echo "login ${{ secrets.RDK_USER }}\n" >> ~/.netrc
+          echo "password ${{ secrets.RDK_PASS }}\n" >> ~/.netrc
+          chmod 600 ~/.netrc
+
+      - name: native build
+        run: |
+         sudo apt-get update --fix-missing
+         sudo apt-get install -y libboost-timer1.74-dev
+         sudo apt-get install -y software-properties-common
+         yes | ./install-middleware.sh -s subtecii
+
+        # Run L1 tests
+      - name: Run unit tests
+        working-directory: ./test/utests
+        run: ./run.sh
+
+        # Publish test results
+      - name: Publish L1 test results
+        if: ${{ !env.ACT }}
+        uses: dorny/test-reporter@v1
+        with:
+          name: Unit Test Results
+          path: test/utests/build/ctest-results.xml
+          reporter: java-junit
+            
+        # Upload artifact (test/utests/build/ctest-results.xml)
+      - name: Upload test result file (test/utests)
+        if: ${{ !env.ACT }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ctest-results-middleware-utests-${{ github.run_id }}
+          path: test/utests/build/ctest-results.xml
+
+        # Show failure
+      - name: Show failure details (if any)
+        # if: failure()
+        run: tail -n 50 test/utests/build/ctest-results.xml || true
