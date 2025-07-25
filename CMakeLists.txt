@@ -124,6 +124,7 @@ set(LIBPLAYERGSTINTERFACE_HEADERS
 	drm/aes/Aes.h
 	drm/HlsDrmBase.h
 	drm/DrmSystems.h
+	drm/DrmUtils.h
 	drm/DrmCallbacks.h
 	drm/ocdm/opencdmsessionadapter.h
 	drm/DrmJsonObject.h
@@ -132,7 +133,7 @@ set(LIBPLAYERGSTINTERFACE_HEADERS
 	vendor/realtek/RealtekSocInterface.h
 	vendor/brcm/BrcmSocInterface.h
 	vendor/default/DefaultSocInterface.h
-        subtitle/vttCue.h
+    subtitle/vttCue.h
 	ProcessHandler.h
 	)
 
