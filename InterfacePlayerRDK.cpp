@@ -3999,8 +3999,9 @@ static void GstPlayer_OnGstBufferUnderflowCb(GstElement* object, guint arg0, gpo
 
     std::map<std::string, float> floatData;
     floatData["Rate"] = privatePlayer->gstPrivateContext->rate;
-
-    MWPlayerTelemetry2::send("Nitz : MW_BUFFER_UNDERFLOW", intData, stringData, floatData);
+    
+    MWPlayerTelemetry2 telemetry;
+    telemetry::send("Nitz : MW_BUFFER_UNDERFLOW", intData, stringData, floatData);
 }
 #endif
 
