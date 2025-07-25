@@ -4001,7 +4001,7 @@ static void GstPlayer_OnGstBufferUnderflowCb(GstElement* object, guint arg0, gpo
     floatData["Rate"] = privatePlayer->gstPrivateContext->rate;
     
     MWPlayerTelemetry2 telemetry;
-    telemetry::send("Nitz : MW_BUFFER_UNDERFLOW", intData, stringData, floatData);
+    telemetry.send("Nitz : MW_BUFFER_UNDERFLOW", intData, stringData, floatData);
 }
 #endif
 
