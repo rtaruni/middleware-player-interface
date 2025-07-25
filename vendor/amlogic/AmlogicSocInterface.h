@@ -157,6 +157,7 @@ class AmlogicSocInterface : public SocInterface
 		 */
 		void SetPlaybackFlags(gint &flags,  bool isSub)override;
 
+		bool IsTargetSoc() const override { return true; }
 		/**
 		 * @brief Resets segment event flags during trickplay transitions.
 		 *

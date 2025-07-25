@@ -28,7 +28,7 @@
 #include <dlfcn.h>
 #include <stdio.h>
 #include "DrmConstants.h"
-
+#include "AmlogicSocInterface.h" 
 GST_DEBUG_CATEGORY_STATIC ( gst_cdmidecryptor_debug_category);
 #define GST_CAT_DEFAULT  gst_cdmidecryptor_debug_category
 #define DECRYPT_FAILURE_THRESHOLD 5
@@ -45,6 +45,7 @@ enum
 #define DEBUG_FUNC()
 #endif
 
+SocInterface* socInterface = SocInterface::CreateSocInterface();
 /**
  * @brief Replaces the Key ID in Widevine PSSH data with the Key ID from Clear Key PSSH data.
  *
@@ -185,10 +186,13 @@ static void gst_cdmidecryptor_class_init(
 	base_transform_class->transform_ip = GST_DEBUG_FUNCPTR(
 			gst_cdmidecryptor_transform_ip);
 
-#if !defined(AMLOGIC)
+//#if !defined(AMLOGIC)
+if (!socInterface || !socInterface->isTargetSoc())
+{
 	base_transform_class->accept_caps = GST_DEBUG_FUNCPTR(
 			gst_cdmidecryptor_accept_caps);
-#endif
+}
+//#endif
 	base_transform_class->transform_ip_on_passthrough = FALSE;
 
 	gst_element_class_set_static_metadata(GST_ELEMENT_CLASS(klass),
@@ -427,10 +431,13 @@ gst_cdmidecryptor_transform_caps(GstBaseTransform * trans,
 
 		gst_cdmicapsappendifnotduplicate(transformedCaps, out);
 
-#if defined(AMLOGIC)
+//#if defined(AMLOGIC)
+if (socInterface && socInterface->IsTargetSoc())
+{
 	if (direction == GST_PAD_SINK && !gst_caps_is_empty(transformedCaps) && OCDMGstTransformCaps)
 		OCDMGstTransformCaps(&transformedCaps);
-#endif
+}
+//#endif
 	}
 
 	if (filter)
@@ -503,7 +510,9 @@ static GstFlowReturn gst_cdmidecryptor_transform_ip(
 	{
 		GST_DEBUG_OBJECT(cdmidecryptor,
 				"Failed to get GstProtection metadata from buffer %p, could be clear buffer",buffer);
-#if defined(AMLOGIC)
+//#if defined(AMLOGIC)
+if (socInterface && socInterface->IsTargetSoc())
+{
 		// call decrypt even for clear samples in order to copy it to a secure buffer. If secure buffers are not supported
 		// decrypt() call will return without doing anything
 		if (cdmidecryptor->drmSession != NULL)
@@ -513,7 +522,8 @@ static GstFlowReturn gst_cdmidecryptor_transform_ip(
 			result = GST_FLOW_NOT_SUPPORTED;
 			GST_ERROR_OBJECT(cdmidecryptor, "drmSession is **** NULL ****, returning GST_FLOW_NOT_SUPPORTED");
 		}
-#endif
+}
+//#endif
 		goto free_resources;
 	}
 
