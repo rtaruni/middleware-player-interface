@@ -1267,7 +1267,7 @@ static GstStateChangeReturn SetStateWithWarnings(GstElement *element, GstState t
 		switch(stateChangeReturn)
 		{
 			case GST_STATE_CHANGE_FAILURE:
-#ifdef MWPLAYER_TELEMETRY_SUPPORT
+#ifndef MWPLAYER_TELEMETRY_SUPPORT
                     MWPlayerTelemetry2::send("MW_PIPELINE_STATE_CHANGE_FAILURE",
                     SafeName(element),
                     gst_element_state_get_name(current),
@@ -3199,7 +3199,7 @@ void InterfacePlayerRDK::QueueProtectionEvent(const std::string& formatType, con
 	}
 	else
 	{
-#ifdef MWPLAYER_TELEMETRY_SUPPORT
+#ifndef MWPLAYER_TELEMETRY_SUPPORT
             MWPlayerTelemetry2::send("MW_PROTECTION_EVENT_FAILED",
             formatType,
             protSystemId ? protSystemId : "",
@@ -3985,16 +3985,25 @@ static void GstPlayer_OnGstBufferUnderflowCb(GstElement* object, guint arg0, gpo
 			return;
 		}
 
-		MW_LOG_WARN("## Got Underflow message from %s type %d ##", GST_ELEMENT_NAME(object), type);
+		MW_LOG_WARN("## Nitz : Got Underflow message from %s type %d ##", GST_ELEMENT_NAME(object), type);
 		privatePlayer->gstPrivateContext->stream[type].bufferUnderrun = true;
 #ifdef MWPLAYER_TELEMETRY_SUPPORT
-            MWPlayerTelemetry2::send("MW_BUFFER_UNDERFLOW",
-            GST_ELEMENT_NAME(object),
-            type,
-            privatePlayer->gstPrivateContext->stream[type].eosReached,
-            privatePlayer->gstPrivateContext->rate,
-            privatePlayer->gstPrivateContext->stream[type].bufferUnderrun);
+{
+    std::map<std::string, std::string> stringData;
+    stringData["Element"] = GST_ELEMENT_NAME(object);
+
+    std::map<std::string, int> intData;
+    intData["Type"] = static_cast<int>(type);
+    intData["EOSReached"] = static_cast<int>(privatePlayer->gstPrivateContext->stream[type].eosReached);
+    intData["BufferUnderrun"] = static_cast<int>(privatePlayer->gstPrivateContext->stream[type].bufferUnderrun);
+
+    std::map<std::string, float> floatData;
+    floatData["Rate"] = privatePlayer->gstPrivateContext->rate;
+
+    MWPlayerTelemetry2::send("Nitz : MW_BUFFER_UNDERFLOW", intData, stringData, floatData);
+}
 #endif
+
 		if ((privatePlayer->gstPrivateContext->stream[type].eosReached) && (privatePlayer->gstPrivateContext->rate > 0))
 		{
 			if (!privatePlayer->gstPrivateContext->ptsCheckForEosOnUnderflowIdleTaskId)
@@ -4041,7 +4050,7 @@ static void GstPlayer_OnGstPtsErrorCb(GstElement *object, guint arg0, gpointer a
 	HANDLER_CONTROL_HELPER_CALLBACK_VOID();
 	bool isVideo = false;
 	bool isAudioSink = false;
-#ifdef MWPLAYER_TELEMETRY_SUPPORT
+#ifndef MWPLAYER_TELEMETRY_SUPPORT
         MWPlayerTelemetry2::send("MW_PTS_ERROR",
         GST_ELEMENT_NAME(object),
         isVideo,
@@ -4078,7 +4087,7 @@ static void GstPlayer_OnGstDecodeErrorCb(GstElement* object, guint arg0, gpointe
 	HANDLER_CONTROL_HELPER_CALLBACK_VOID();
 	long long deltaMS = NOW_STEADY_TS_MS - privatePlayer->gstPrivateContext->decodeErrorMsgTimeMS;
 	privatePlayer->gstPrivateContext->decodeErrorCBCount += 1;
-#ifdef MWPLAYER_TELEMETRY_SUPPORT
+#ifndef MWPLAYER_TELEMETRY_SUPPORT
         MWPlayerTelemetry2::send("MW_DECODE_ERROR",
         GST_ELEMENT_NAME(object),
         privatePlayer->gstPrivateContext->decodeErrorCBCount,
@@ -4121,7 +4130,7 @@ static gboolean bus_message(GstBus * bus, GstMessage * msg, InterfacePlayerRDK *
 	{
 		case GST_MESSAGE_ERROR:
 			gst_message_parse_error(msg, &error, &dbg_info);
-#ifdef MWPLAYER_TELEMETRY_SUPPORT
+#ifndef MWPLAYER_TELEMETRY_SUPPORT
                 MWPlayerTelemetry2::send("MW_GST_ERROR",
                 GST_OBJECT_NAME(msg->src),
                 error->message,
@@ -4577,7 +4586,7 @@ static gboolean buffering_timeout (gpointer data)
 			pInterfacePlayerRDK->OnBuffering_timeoutCb(isBufferingTimeoutConditionMet, isRateCorrectionDefaultOnPlaying, isPlayerReady);
 		}
 		return privatePlayer->gstPrivateContext->buffering_in_progress;
-#ifdef MWPLAYER_TELEMETRY_SUPPORT
+#ifndef MWPLAYER_TELEMETRY_SUPPORT
     	MWPlayerTelemetry2::send("MW_BUFFERING_TIMEOUT",
         privatePlayer->gstPrivateContext->numberOfVideoBuffersSent,
         privatePlayer->gstPrivateContext->buffering_timeout_cnt,

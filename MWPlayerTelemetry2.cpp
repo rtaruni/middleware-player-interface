@@ -91,7 +91,7 @@ bool MWPlayerTelemetry2::send( const std::string &markerName, const char *  data
     bool bRet = false;
     if(mInitializer.isInitialized()	&& NULL != data)
     {
-        MWPLAYERLOG_INFO("[S] Marker Name: %s value:%s", markerName.c_str(),data );
+        MW_LOG_INFO("[S] Marker Name: %s value:%s", markerName.c_str(),data );
         T2ERROR t2Error =  t2_event_s( (char *)markerName.c_str(),(char*)data );
 
         if(T2ERROR_SUCCESS == t2Error)
