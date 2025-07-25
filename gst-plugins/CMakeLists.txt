@@ -19,11 +19,12 @@
 
 cmake_minimum_required (VERSION 2.6)
 project (GST-PLUGINS)
+
+set(MW_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../")
+
 #find_package(GStreamer 1.4 REQUIRED)
 #add_subdirectory(jsbindings)
 find_package(PkgConfig REQUIRED)
-
-set(MW_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../")
 
 message("using gstreamer-1.0")
 pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
