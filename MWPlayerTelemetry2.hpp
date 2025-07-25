@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "MWPlayerLogManager.h"
+#include "PlayerLogManager.h"
 
 // Note that RDK telemetry 2.0 support is per process basic, 
 // this class is created to take care of un initialization of telemetry but having object as global variable 
