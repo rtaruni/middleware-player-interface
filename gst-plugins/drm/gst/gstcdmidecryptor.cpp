@@ -28,7 +28,7 @@
 #include <dlfcn.h>
 #include <stdio.h>
 #include "DrmConstants.h"
-#include "AmlogicSocInterface.h" 
+#include "vendor/amlogic/AmlogicSocInterface.h" 
 GST_DEBUG_CATEGORY_STATIC ( gst_cdmidecryptor_debug_category);
 #define GST_CAT_DEFAULT  gst_cdmidecryptor_debug_category
 #define DECRYPT_FAILURE_THRESHOLD 5
