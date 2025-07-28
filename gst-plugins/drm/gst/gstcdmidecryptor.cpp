@@ -45,7 +45,7 @@ enum
 #define DEBUG_FUNC()
 #endif
 
-SocInterface* socInterface = SocInterface::CreateSocInterface();
+std::shared_ptr<SocInterface> socInterface = SocInterface::CreateSocInterface();
 /**
  * @brief Replaces the Key ID in Widevine PSSH data with the Key ID from Clear Key PSSH data.
  *
@@ -187,7 +187,7 @@ static void gst_cdmidecryptor_class_init(
 			gst_cdmidecryptor_transform_ip);
 
 //#if !defined(AMLOGIC)
-if (!socInterface || !socInterface->isTargetSoc())
+if (!socInterface || !socInterface->IsTargetSoc())
 {
 	base_transform_class->accept_caps = GST_DEBUG_FUNCPTR(
 			gst_cdmidecryptor_accept_caps);
