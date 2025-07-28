@@ -1267,7 +1267,7 @@ static GstStateChangeReturn SetStateWithWarnings(GstElement *element, GstState t
 		switch(stateChangeReturn)
 		{
 			case GST_STATE_CHANGE_FAILURE:
-#ifndef MWPLAYER_TELEMETRY_SUPPORT
+/*#ifndef MWPLAYER_TELEMETRY_SUPPORT
                     MWPlayerTelemetry2 telemetry;
     		    telemetry.send("MW_PIPELINE_STATE_CHANGE_FAILURE",
                     SafeName(element),
@@ -1275,7 +1275,7 @@ static GstStateChangeReturn SetStateWithWarnings(GstElement *element, GstState t
                     gst_element_state_get_name(pending),
                     targetState);
 #endif
-				MW_LOG_ERR("InterfacePlayerRDK: %s is in FAILURE state : current %s  pending %s", SafeName(element).c_str(),gst_element_state_get_name(current), gst_element_state_get_name(pending));
+*/				MW_LOG_ERR("InterfacePlayerRDK: %s is in FAILURE state : current %s  pending %s", SafeName(element).c_str(),gst_element_state_get_name(current), gst_element_state_get_name(pending));
 				LogStatus(element);
 				break;
 			case GST_STATE_CHANGE_SUCCESS:
@@ -3200,14 +3200,14 @@ void InterfacePlayerRDK::QueueProtectionEvent(const std::string& formatType, con
 	}
 	else
 	{
-#ifndef MWPLAYER_TELEMETRY_SUPPORT
+/*#ifndef MWPLAYER_TELEMETRY_SUPPORT
             MWPlayerTelemetry2 telemetry;
     	    telemetry.send("MW_PROTECTION_EVENT_FAILED",
             formatType,
             protSystemId ? protSystemId : "",
             mediaType,
             initDataSize);
-#endif
+#endif*/
 	}
 }
 
@@ -4053,7 +4053,7 @@ static void GstPlayer_OnGstPtsErrorCb(GstElement *object, guint arg0, gpointer a
 	HANDLER_CONTROL_HELPER_CALLBACK_VOID();
 	bool isVideo = false;
 	bool isAudioSink = false;
-#ifndef MWPLAYER_TELEMETRY_SUPPORT
+/*#ifndef MWPLAYER_TELEMETRY_SUPPORT
         MWPlayerTelemetry2 telemetry;
     	telemetry.send("MW_PTS_ERROR",
         GST_ELEMENT_NAME(object),
@@ -4061,7 +4061,7 @@ static void GstPlayer_OnGstPtsErrorCb(GstElement *object, guint arg0, gpointer a
         isAudioSink,
         privatePlayer->gstPrivateContext->lastKnownPTS,
         privatePlayer->gstPrivateContext->ptsUpdatedTimeMS);
-#endif
+#endif*/
 	if (privatePlayer->socInterface->IsVideoSinkHandleErrors())
 	{
 		isVideo = GstPlayer_isVideoSink(GST_ELEMENT_NAME(object), pInterfacePlayerRDK);
@@ -4091,14 +4091,14 @@ static void GstPlayer_OnGstDecodeErrorCb(GstElement* object, guint arg0, gpointe
 	HANDLER_CONTROL_HELPER_CALLBACK_VOID();
 	long long deltaMS = NOW_STEADY_TS_MS - privatePlayer->gstPrivateContext->decodeErrorMsgTimeMS;
 	privatePlayer->gstPrivateContext->decodeErrorCBCount += 1;
-#ifndef MWPLAYER_TELEMETRY_SUPPORT
+/*#ifndef MWPLAYER_TELEMETRY_SUPPORT
         MWPlayerTelemetry2 telemetry;
     	telemetry.send("MW_DECODE_ERROR",
         GST_ELEMENT_NAME(object),
         privatePlayer->gstPrivateContext->decodeErrorCBCount,
         deltaMS,
         privatePlayer->gstPrivateContext->rate);
-#endif
+#endif*/
 	if (deltaMS >= GST_MIN_DECODE_ERROR_INTERVAL)
 	{
 		pInterfacePlayerRDK->OnGstDecodeErrorCb(privatePlayer->gstPrivateContext->decodeErrorCBCount);
@@ -4135,14 +4135,14 @@ static gboolean bus_message(GstBus * bus, GstMessage * msg, InterfacePlayerRDK *
 	{
 		case GST_MESSAGE_ERROR:
 			gst_message_parse_error(msg, &error, &dbg_info);
-#ifndef MWPLAYER_TELEMETRY_SUPPORT
+/*#ifndef MWPLAYER_TELEMETRY_SUPPORT
                 MWPlayerTelemetry2 telemetry;
     		telemetry.send("MW_GST_ERROR",
                 GST_OBJECT_NAME(msg->src),
                 error->message,
                 dbg_info ? dbg_info : "",
                 privatePlayer->gstPrivateContext->rate);
-#endif
+#endif*/
 			MW_LOG_ERR("GST_MESSAGE_ERROR %s: %s\n", GST_OBJECT_NAME(msg->src), error->message);
 			busEvent.msgType = MESSAGE_ERROR;
 			busEvent.msg = error->message;
@@ -4592,7 +4592,7 @@ static gboolean buffering_timeout (gpointer data)
 			pInterfacePlayerRDK->OnBuffering_timeoutCb(isBufferingTimeoutConditionMet, isRateCorrectionDefaultOnPlaying, isPlayerReady);
 		}
 		return privatePlayer->gstPrivateContext->buffering_in_progress;
-#ifndef MWPLAYER_TELEMETRY_SUPPORT
+/*#ifndef MWPLAYER_TELEMETRY_SUPPORT
     	MWPlayerTelemetry2 telemetry;
     	telemetry.send("MW_BUFFERING_TIMEOUT",
         privatePlayer->gstPrivateContext->numberOfVideoBuffersSent,
@@ -4601,7 +4601,7 @@ static gboolean buffering_timeout (gpointer data)
         isBufferingTimeoutConditionMet,
         isRateCorrectionDefaultOnPlaying,
         isPlayerReady);
-#endif
+#endif*/
 	}
 	else
 	{
