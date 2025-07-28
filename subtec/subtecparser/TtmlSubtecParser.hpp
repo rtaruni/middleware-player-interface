@@ -54,16 +54,6 @@ public:
      */
     TtmlSubtecParser(SubtitleMimeType type, int width, int height);
 
-	
-	bool init(double startPosSeconds, unsigned long long basePTS) override;
-	bool processData(const char* buffer, size_t bufferLen, double position, double duration) override;
-	bool close() override { return true; }
-	void reset() override;
-	void setProgressEventOffset(double offset) override {}
-	void updateTimestamp(unsigned long long positionMs) override;
-	void pause(bool pause) override;
-	void mute(bool mute) override;
-
     /// Deleted copy constructor to prevent copying.
     TtmlSubtecParser(const TtmlSubtecParser&) = delete;
 
