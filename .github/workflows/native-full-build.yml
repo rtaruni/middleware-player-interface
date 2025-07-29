@@ -2,30 +2,22 @@ name: Build Component in Native Environment
 
 on:
   pull_request:
-    branches: [ develop , main , feature/RDKEMW-5868 ]
+    branches: [ develop , main ]
     paths: ['**/*.c', '**/*.cpp', '**/*.cc', '**/*.cxx', '**/*.h', '**/*.hpp', '**/*.sh']
 
 jobs:
   build-player-interface-on-pr:
     name: Build player-interface component in github rdkcentral
     runs-on: ubuntu-latest
-      #    container:
-      # image: ghcr.io/rdkcentral/docker-rdk-ci:latest
+    container:
+      image: ghcr.io/rdkcentral/docker-rdk-ci:latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name: Set up .netrc for RDK Gerrit
-        run: |
-          echo "machine code.rdkcentral.com\n" >> ~/.netrc
-          echo "login ${{ secrets.RDK_USER }}\n" >> ~/.netrc
-          echo "password ${{ secrets.RDK_PASS }}\n" >> ~/.netrc
-          chmod 600 ~/.netrc
-
       - name: native build
         run: |
-         sudo apt-get update --fix-missing
          sudo apt-get install -y libboost-timer1.74-dev
          sudo apt-get install -y software-properties-common
          yes | ./install-middleware.sh -s subtec 
