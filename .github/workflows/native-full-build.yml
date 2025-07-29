@@ -17,7 +17,4 @@ jobs:
         uses: actions/checkout@v3
       
       - name: native build
-        run: |
-         sudo apt-get install -y libboost-timer1.74-dev
-         sudo apt-get install -y software-properties-common
-         yes | ./install-middleware.sh -s subtec 
+        run: yes | ./install-middleware.sh -s subtec
