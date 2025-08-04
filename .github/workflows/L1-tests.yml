@@ -1,4 +1,4 @@
-name: Build Component in Native Environment
+name: L1 tests
 
 on:
   pull_request:
@@ -6,8 +6,8 @@ on:
     paths: ['**/*.c', '**/*.cpp', '**/*.cc', '**/*.cxx', '**/*.h', '**/*.hpp', '**/*.sh']
 
 jobs:
-  build-player-interface-on-pr:
-    name: Build player-interface component in github rdkcentral
+  execute-unit-tests-on-pr:
+    name: Runs all unit tests
     runs-on: ubuntu-latest
 
     steps:
