@@ -76,10 +76,14 @@ void initializeReadline() {
     };
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     // Create the command executor
     CommandExecutor executor;
     InterfacePlayerRDK player;
+    
+    // Install required CB functions so we don't crash
+    player.TearDownCallback([](bool, int){ /* no-op */ });
+    player.RegisterNeedDataCb([](int){ /* no-op */ });
 
     // Initialize commands
     std::map<std::string, Command> commands = initializeCommands(executor, player);

@@ -49,7 +49,6 @@ void setPauseOnStartCommand(InterfacePlayerRDK& player, const std::vector<std::s
 void setPlayBackRateCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void setAudioVolumeCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void setupStreamCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
-void interfacePlayerSetupStreamCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void pauseCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void resumeInjectorCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void stopCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
@@ -64,11 +63,6 @@ void notifyFirstFrameCommand(InterfacePlayerRDK& player, const std::vector<std::
 void endOfStreamReachedCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void sendHelperCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void waitForSourceSetupCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
-void needDataCbCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
-void enoughDataCbCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
-void bufferingTimeoutCbCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
-void decodeErrorCbCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
-void ptsErrorCbCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void timerAddCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void timerRemoveCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
 void timerIsRunningCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params);
