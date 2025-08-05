@@ -1,0 +1,20 @@
+name: Build Component in Native Environment
+
+on:
+  pull_request:
+    branches: [ develop , main ]
+    paths: ['**/*.c', '**/*.cpp', '**/*.cc', '**/*.cxx', '**/*.h', '**/*.hpp', '**/*.sh']
+
+jobs:
+  build-player-interface-on-pr:
+    name: Build player-interface component in github rdkcentral
+    runs-on: ubuntu-latest
+    #container:
+     # image: ghcr.io/rdkcentral/docker-rdk-ci:latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: native build
+        run: yes | ./install-middleware.sh -s subtec

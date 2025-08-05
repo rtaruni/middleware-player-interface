@@ -6,6 +6,9 @@ project(Playergstinterface)
 
 set(CMAKE_CXX_STANDARD 14)
 
+# Option for building pi-cli
+option(BUILD_PICLI "Build the pi-cli test project" OFF)
+
 find_package(PkgConfig REQUIRED)
 
 option(DISABLE_SECURITY_TOKEN "Disable security token" OFF)
@@ -373,3 +376,8 @@ target_link_libraries(playergstinterface subtec)
 target_link_libraries(playergstinterface baseconversion)
 target_link_libraries(playergstinterface playerfbinterface)
 set(LIBPLAYERGSTINTERFACE_SOURCES ${LIBPLAYERGSTINTERFACE_SOURCES} {LIBPLAYERGSTINTERFACE_MOCK_SOURCES})
+
+# Optionally build pi-cli for l2
+if(BUILD_PICLI)
+    add_subdirectory(test/pi-cli)
+endif()
