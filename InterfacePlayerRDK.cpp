@@ -31,6 +31,9 @@
 #include "TextStyleAttributes.h"
 #include <memory>
 #include <gst/gst.h>
+#ifdef MWPLAYER_TELEMETRY_SUPPORT
+#include "MWPlayerTelemetry2.hpp"
+#endif //MWPLAYER_TELEMETRY_SUPPORT
 #ifdef USE_EXTERNAL_STATS
 #include "player-xternal-stats.h"
 #endif
@@ -328,7 +331,13 @@ void InterfacePlayerRDK::ConfigurePipeline(int format, int audioFormat, int auxF
 
 	if (interfacePlayerPriv->gstPrivateContext->pipeline == NULL || interfacePlayerPriv->gstPrivateContext->bus == NULL)
 	{
-		MW_LOG_MIL("Create pipeline %s (pipeline %p bus %p)", pipelineName, interfacePlayerPriv->gstPrivateContext->pipeline, interfacePlayerPriv->gstPrivateContext->bus);
+//TODO: REMOVE AFTER VERIFYING NITZ
+#ifdef MWPLAYER_TELEMETRY_SUPPORT
+    MW_LOG_MIL("Nitz : MWPLAYER_TELEMETRY_SUPPORT is enabled at runtime");
+#else
+    MW_LOG_MIL("Nitz : MWPLAYER_TELEMETRY_SUPPORT is NOT enabled at runtime");
+#endif
+		MW_LOG_MIL("Nitz : Create pipeline %s (pipeline %p bus %p)", pipelineName, interfacePlayerPriv->gstPrivateContext->pipeline, interfacePlayerPriv->gstPrivateContext->bus);
 		CreatePipeline(pipelineName, PipelinePriority); 		/*Create a new pipeline if pipeline or the message bus does not exist*/
 	}
 
@@ -3959,8 +3968,25 @@ static void GstPlayer_OnGstBufferUnderflowCb(GstElement* object, guint arg0, gpo
 			return;
 		}
 
-		MW_LOG_WARN("## Got Underflow message from %s type %d ##", GST_ELEMENT_NAME(object), type);
+		MW_LOG_WARN("## Nitz : Got Underflow message from %s type %d ##", GST_ELEMENT_NAME(object), type);
 		privatePlayer->gstPrivateContext->stream[type].bufferUnderrun = true;
+#ifdef MWPLAYER_TELEMETRY_SUPPORT
+{
+    std::map<std::string, std::string> stringData;
+    stringData["Element"] = GST_ELEMENT_NAME(object);
+
+    std::map<std::string, int> intData;
+    intData["Type"] = static_cast<int>(type);
+    intData["EOSReached"] = static_cast<int>(privatePlayer->gstPrivateContext->stream[type].eosReached);
+    intData["BufferUnderrun"] = static_cast<int>(privatePlayer->gstPrivateContext->stream[type].bufferUnderrun);
+
+    std::map<std::string, float> floatData;
+    floatData["Rate"] = privatePlayer->gstPrivateContext->rate;
+    
+    MWPlayerTelemetry2 telemetry;
+    telemetry.send("Nitz : MW_BUFFER_UNDERFLOW", intData, stringData, floatData);
+}
+#endif
 
 		if ((privatePlayer->gstPrivateContext->stream[type].eosReached) && (privatePlayer->gstPrivateContext->rate > 0))
 		{
