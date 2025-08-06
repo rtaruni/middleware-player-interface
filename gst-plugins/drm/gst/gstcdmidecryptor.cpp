@@ -22,12 +22,11 @@
 #include "gstcdmidecryptor.h"
 #include <open_cdm.h>
 #include <open_cdm_adapter.h>
-#if defined(AMLOGIC)
-#include <gst_svp_meta.h>
-#endif
+
 #include <dlfcn.h>
 #include <stdio.h>
 #include "DrmConstants.h"
+#include "amlogic/AmlogicSocInterface.h"
 
 GST_DEBUG_CATEGORY_STATIC ( gst_cdmidecryptor_debug_category);
 #define GST_CAT_DEFAULT  gst_cdmidecryptor_debug_category
@@ -959,20 +958,18 @@ static GstStateChangeReturn gst_cdmidecryptor_changestate(
 		g_cond_signal(&cdmidecryptor->condition);
 		g_mutex_unlock(&cdmidecryptor->mutex);
 		break;
-#if defined(AMLOGIC)
 	case GST_STATE_CHANGE_NULL_TO_READY:
-		GST_DEBUG_OBJECT(cdmidecryptor, "NULL->READY");
-		if (cdmidecryptor->svpCtx == NULL)
-		 gst_svp_ext_get_context(&cdmidecryptor->svpCtx, Server, 0);
-		break;
+  		GST_DEBUG_OBJECT(cdmidecryptor, "NULL->READY");
+  		if (cdmidecryptor->svpCtx == NULL)
+    	AmlogicSvpGetContext(&cdmidecryptor->svpCtx, Server, 0);
+  		break;
 	case GST_STATE_CHANGE_READY_TO_NULL:
-		GST_DEBUG_OBJECT(cdmidecryptor, "READY->NULL");
-		if (cdmidecryptor->svpCtx) {
-  	        	gst_svp_ext_free_context(cdmidecryptor->svpCtx);
-			cdmidecryptor->svpCtx = NULL;	
-		}
-		break;
-#endif
+  		GST_DEBUG_OBJECT(cdmidecryptor, "READY->NULL");
+  		if (cdmidecryptor->svpCtx) {
+    	AmlogicSvpFreeContext(cdmidecryptor->svpCtx);
+    	cdmidecryptor->svpCtx = NULL;
+  		}
+ 		break;
 	default:
 		break;
 	}

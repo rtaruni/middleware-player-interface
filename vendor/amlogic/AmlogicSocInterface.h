@@ -21,9 +21,7 @@
 #define AMLOGIC_SOC_INTERFACE_H
 
 #include "SocInterface.h"
-#if defined(AMLOGIC)
-#include "gst_svp_meta.h"
-#endif
+
 /**
  * @brief Amlogic SoC interface class.
  *
@@ -86,6 +84,9 @@ class AmlogicSocInterface : public SocInterface
 		 */
 		GstPad* GetSourcePad(GstElement* element) override;
 
+		void AmlogicSvpGetContext(void **svpCtx, int server, int flags);
+		
+		void AmlogicSvpFreeContext(void *svpCtx);
 		/**
 		 * @brief Set AC4 tracks.
 		 * @param src Source element.

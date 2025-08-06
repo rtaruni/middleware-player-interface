@@ -18,7 +18,7 @@
  */
 
 #include "AmlogicSocInterface.h"
-
+#include <gst_svp_meta.h>
 /**
  * @brief AmlogicSocInterface constructor.
  */
@@ -47,6 +47,16 @@ void AmlogicSocInterface::SetSeamlessSwitch(GstElement* sink, gboolean value)
 {
 	MW_LOG_INFO("AMLOGIC:setting seamless property");
 	g_object_set(sink, "seamless-switch", value, NULL);
+}
+
+void AmlogicSvpGetContext(void **svpCtx, int server, int flags)
+{
+  gst_svp_ext_get_context(svpCtx, server, flags);
+}
+
+void AmlogicSvpFreeContext(void *svpCtx)
+{
+  gst_svp_ext_free_context(svpCtx);
 }
 
 /**
