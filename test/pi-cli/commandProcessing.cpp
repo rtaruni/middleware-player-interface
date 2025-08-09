@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
+#include <fstream>
 
 // --- CommandExecutor Implementation ---
 void CommandExecutor::threadFunction() {
@@ -182,26 +183,14 @@ void setAudioVolumeCommand(InterfacePlayerRDK& player, const std::vector<std::st
 }
 
 void setupStreamCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params) {
-    if (params.size() != 3) {
-        std::cout << "Usage: setupstream <streamId> <playerInstance(int)> <url>\n";
-        return;
-    }
-    int streamId = std::stoi(params[0]);
-    void* _this = reinterpret_cast<void*>(std::stoul(params[1]));
-    std::string url = params[2];
-    int result = player.SetupStream(streamId, _this, url);
-    std::cout << "SetupStream executed. Result: " << result << "\n";
-}
-
-void interfacePlayerSetupStreamCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params) {
     if (params.size() != 2) {
-        std::cout << "Usage: interfaceplayer_setupstream <streamId> <url>\n";
+        std::cout << "Usage: setupstream <streamId> <url>\n";
         return;
     }
     int streamId = std::stoi(params[0]);
     std::string url = params[1];
     int result = player.InterfacePlayer_SetupStream(streamId, url);
-    std::cout << "InterfacePlayer_SetupStream executed. Result: " << result << "\n";
+    std::cout << "SetupStream executed. Result: " << result << "\n";
 }
 
 void pauseCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params) {
@@ -414,6 +403,83 @@ void clearProtectionEventCommand(InterfacePlayerRDK& player, const std::vector<s
     std::cout << "ClearProtectionEvent executed.\n";
 }
 
+void setVideoRectangle(InterfacePlayerRDK& player, const std::vector<std::string>& params) {
+    if (params.size() != 4) {
+        std::cout << "Usage: setvideorectangle <x> <y> <width> <height>\n";
+        return;
+    }
+    try {
+        int x = std::stoi(params[0]);
+        int y = std::stoi(params[1]);
+        int w = std::stoi(params[2]);
+        int h = std::stoi(params[3]);
+        player.SetVideoRectangle(x, y, w, h);
+        std::cout << "SetVideoRectangle executed: (" << x << ", " << y << ", " << w << ", " << h << ")\n";
+    } catch (const std::exception& e) {
+        std::cout << "Invalid arguments, must be integers. Usage: setvideorectangle <x> <y> <width> <height>\n";
+    }
+}
+
+void injectFragmentCommand(InterfacePlayerRDK& player, const std::vector<std::string>& params) {
+    // Usage: injectfragment <mediaType:int> <filePath> [pts] [dts] [duration] [fragmentPTSoffset]
+    if (params.size() < 3) {
+        std::cout << "Usage: injectfragment <mediaType:int> <filePath> <initFragment> [pts] [dts] [duration] [fragmentPTSoffset]\n";
+        return;
+    }
+    int mediaType = std::stoi(params[0]);
+    std::string filePath = params[1];
+
+    bool initFragment = (params[2] == "1" || params[2] == "true");
+    double pts = params.size() > 3 ? std::stod(params[3]) : 0.0;
+    double dts = params.size() > 4 ? std::stod(params[4]) : 0.0;
+    double duration = params.size() > 5 ? std::stod(params[5]) : 0.0;
+    double fragmentPTSoffset = params.size() > 6 ? std::stod(params[6]) : 0.0;
+
+    // Read file into buffer
+    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
+    if (!file) {
+        std::cout << "injectfragment: Failed to open file: " << filePath << "\n";
+        return;
+    }
+    std::streamsize size = file.tellg();
+    if (size <= 0) {
+        std::cout << "injectfragment: File is empty: " << filePath << "\n";
+        return;
+    }
+    file.seekg(0, std::ios::beg);
+    std::vector<char> buffer(size);
+    if (!file.read(buffer.data(), size)) {
+        std::cout << "injectfragment: Failed to read file: " << filePath << "\n";
+        return;
+    }
+
+    // Default flags for SendHelper
+    bool copy = true;
+    bool discontinuity = false;
+    bool notifyFirstBufferProcessed = false;
+    bool sendNewSegmentEvent = false;
+    bool resetTrickUTC = false;
+    bool firstBufferPushed = false;
+
+    bool ok = player.SendHelper(
+        mediaType,
+        buffer.data(),
+        buffer.size(),
+        pts,
+        dts,
+        duration,
+        fragmentPTSoffset,
+        copy,
+        initFragment,
+        discontinuity,
+        notifyFirstBufferProcessed,
+        sendNewSegmentEvent,
+        resetTrickUTC,
+        firstBufferPushed
+    );
+    std::cout << "injectfragment executed. Success: " << (ok ? "true" : "false") << "\n";
+}
+
 // --- Register All Commands ---
 std::map<std::string, Command> initializeCommands(CommandExecutor& executor, InterfacePlayerRDK& player) {
     std::map<std::string, Command> commands;
@@ -431,7 +497,6 @@ std::map<std::string, Command> initializeCommands(CommandExecutor& executor, Int
     commands.emplace("setplaybackrate", Command("setplaybackrate", "Set playback rate. Usage: setplaybackrate <rate>", [&player](const std::vector<std::string>& params) { setPlayBackRateCommand(player, params); }));
     commands.emplace("setaudiovolume", Command("setaudiovolume", "Set audio volume. Usage: setaudiovolume <volume>", [&player](const std::vector<std::string>& params) { setAudioVolumeCommand(player, params); }));
     commands.emplace("setupstream", Command("setupstream", "Setup stream. Usage: setupstream <streamId> <playerInstance(int)> <url>", [&player](const std::vector<std::string>& params) { setupStreamCommand(player, params); }));
-    commands.emplace("interfaceplayer_setupstream", Command("interfaceplayer_setupstream", "Setup stream via interface player. Usage: interfaceplayer_setupstream <streamId> <url>", [&player](const std::vector<std::string>& params) { interfacePlayerSetupStreamCommand(player, params); }));
     commands.emplace("pause", Command("pause", "Pause the pipeline. Usage: pause [pause(bool)] [forceStop(bool)]", [&player](const std::vector<std::string>& params) { pauseCommand(player, params); }));
     commands.emplace("resumeinjector", Command("resumeinjector", "Resume injector.", [&player](const std::vector<std::string>& params) { resumeInjectorCommand(player, params); }));
     commands.emplace("stop", Command("stop", "Stop playback.", [&player](const std::vector<std::string>& params) { stopCommand(player, params); }));
@@ -446,11 +511,6 @@ std::map<std::string, Command> initializeCommands(CommandExecutor& executor, Int
     commands.emplace("endofstreamreached", Command("endofstreamreached", "End of stream reached. Usage: endofstreamreached <mediaType> <shouldHaltBuffering>", [&player](const std::vector<std::string>& params) { endOfStreamReachedCommand(player, params); }));
     commands.emplace("sendhelper", Command("sendhelper", "Send helper event (not available in CLI).", [&player](const std::vector<std::string>& params) { sendHelperCommand(player, params); }));
     commands.emplace("waitforsourcesetup", Command("waitforsourcesetup", "Wait for source setup. Usage: waitforsourcesetup <mediaType>", [&player](const std::vector<std::string>& params) { waitForSourceSetupCommand(player, params); }));
-    commands.emplace("needdatacb", Command("needdatacb", "NeedData callback (not available in CLI).", [&player](const std::vector<std::string>& params) { needDataCbCommand(player, params); }));
-    commands.emplace("enoughdatacb", Command("enoughdatacb", "EnoughData callback (not available in CLI).", [&player](const std::vector<std::string>& params) { enoughDataCbCommand(player, params); }));
-    commands.emplace("bufferingtimeoutcb", Command("bufferingtimeoutcb", "BufferingTimeout callback (not available in CLI).", [&player](const std::vector<std::string>& params) { bufferingTimeoutCbCommand(player, params); }));
-    commands.emplace("decodeerrorcb", Command("decodeerrorcb", "DecodeError callback (not available in CLI).", [&player](const std::vector<std::string>& params) { decodeErrorCbCommand(player, params); }));
-    commands.emplace("ptserrorcb", Command("ptserrorcb", "PtsError callback (not available in CLI).", [&player](const std::vector<std::string>& params) { ptsErrorCbCommand(player, params); }));
     commands.emplace("timeradd", Command("timeradd", "Add timer (not available in CLI).", [&player](const std::vector<std::string>& params) { timerAddCommand(player, params); }));
     commands.emplace("timerremove", Command("timerremove", "Remove timer. Usage: timerremove <taskId>", [&player](const std::vector<std::string>& params) { timerRemoveCommand(player, params); }));
     commands.emplace("timerisrunning", Command("timerisrunning", "Check if timer is running. Usage: timerisrunning <taskId>", [&player](const std::vector<std::string>& params) { timerIsRunningCommand(player, params); }));
@@ -461,6 +521,8 @@ std::map<std::string, Command> initializeCommands(CommandExecutor& executor, Int
     commands.emplace("destroypipeline", Command("destroypipeline", "Destroy pipeline.", [&player](const std::vector<std::string>& params) { destroyPipelineCommand(player, params); }));
     commands.emplace("removeprobes", Command("removeprobes", "Remove probes.", [&player](const std::vector<std::string>& params) { removeProbesCommand(player, params); }));
     commands.emplace("clearprotectionevent", Command("clearprotectionevent", "Clear protection event.", [&player](const std::vector<std::string>& params) { clearProtectionEventCommand(player, params); }));
+    commands.emplace("setvideorectangle", Command("setvideorectangle", "Usage: setvideorectangle <x> <y> <width> <height>", [&](const std::vector<std::string>& params) { setVideoRectangle(player, params); }));
+    commands.emplace("injectfragment", Command("injectfragment", "Inject a fragment into the player. Usage: injectfragment <mediaType:int> <filePath> [pts] [dts] [duration] [fragmentPTSoffset]", [&player](const std::vector<std::string>& params) { injectFragmentCommand(player, params); } ) );
 
     return commands;
 }
