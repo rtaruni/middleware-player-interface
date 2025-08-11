@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # default values
-OPTION_PLAYER_BRANCH="develop"
+OPTION_PLAYER_BRANCH="dev_sprint_25_1"
 OPTION_BUILD_DIR=""
 OPTION_BUILD_ARGS=""
 OPTION_CLEAN=false
@@ -46,19 +46,19 @@ function install_options_fn()
         OPTION_QUICK=true
         echo "Skip : ${QUICK}"
         ;;
-      r ) 
+      r )
         OPTION_RIALTO_REFERENCE=${OPTARG}
         echo "rialto tag : ${RIALTO_REFERENCE}"
         ;;
-      s ) 
+      s )
         OPTION_SUBTEC_SKIP=true
         # overrides any subtec or subtec clean setting
         echo "Skip subtec: ${OPTION_SKIP_SUBTEC}"
         ;;
-      p )     
+      p )
         OPTION_PROTOBUF_REFERENCE=${OPTARG}
         echo "protobuf branch : ${PROTOBUF_REFERENCE}"
-        ;;  
+        ;;
       * )
         echo "Usage: $0 [-b branch name] [-d local setup directory name] [-c] [-f compiler flags] [-g google release tag] [-n] [-q] [-s] [subtec [clean]]"
         echo "          [-r rialto tag] [-p protobuf branch name] [rialto] (Linux only)"
@@ -82,7 +82,7 @@ function install_options_fn()
 
   # Parse subtec options
   if  [[  ${@:$OPTIND:1} = "subtec" ]]; then
-    OPTION_SUBTEC_BUILD=true 
+    OPTION_SUBTEC_BUILD=true
     shift
     if  [[  ${@:$OPTIND:1} = "clean" ]]; then
         OPTION_SUBTEC_CLEAN=true
@@ -96,4 +96,3 @@ function install_options_fn()
   fi
 
 }
-

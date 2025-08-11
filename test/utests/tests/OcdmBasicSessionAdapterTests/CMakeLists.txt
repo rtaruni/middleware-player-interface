@@ -21,8 +21,12 @@ set(PLAYER_ROOT "../../../../")
 set(UTESTS_ROOT "../../")
 set(EXEC_NAME PlayerOcdmBasicSessionAdapterTests)
 
-include_directories(${PLAYER_ROOT} ${PLAYER_ROOT}/drm ${PLAYER_ROOT}/middleware/drm/helper ${PLAYER_ROOT}/middleware ${PLAYER_ROOT}/middleware/drm/ocdm ${PLAYER_ROOT}/middleware/drm/ ${PLAYER_ROOT}/subtitle ${PLAYER_ROOT}/middleware/subtitle ${PLAYER_ROOT}/downloader ${PLAYER_ROOT}/isobmff ${PLAYER_ROOT}/middleware/subtec/subtecparser ${PLAYER_ROOT}/middleware/subtec/playerjsonobject ${PLAYER_ROOT}/middleware/subtec/libsubtec ${PLAYER_ROOT}/middleware/externals/playersecmanager)
-include_directories(${PLAYER_ROOT}/tsb/api)
+include_directories(${AAMP_ROOT} ${AAMP_ROOT}/drm ${AAMP_ROOT}/drm/helper ${AAMP_ROOT}/subtitle ${AAMP_ROOT}/middleware/subtitle ${AAMP_ROOT}/downloader ${AAMP_ROOT}/isobmff ${AAMP_ROOT}/middleware/subtec/subtecparser ${AAMP_ROOT}/middleware/subtec/playerjsonobject ${AAMP_ROOT}/middleware/subtec/libsubtec ${AAMP_ROOT}/middleware/drm/helper ${AAMP_ROOT}/middleware ${AAMP_ROOT}/middleware/drm ${AAMP_ROOT}/middleware/drm/ocdm)
+include_directories(${AAMP_ROOT}/tsb/api)
+include_directories(${AAMP_ROOT}/middleware/externals)
+include_directories(${AAMP_ROOT}/middleware/externals/contentsecuritymanager)
+include_directories(${AAMP_ROOT}/middleware/playerLogManager)
+include_directories(${LIBCJSON_INCLUDE_DIRS})
 
 if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     include_directories(${PLAYER_ROOT}/Linux/include)
@@ -37,22 +41,20 @@ include_directories(${UTESTS_ROOT}/ocdm)
 include_directories(${UTESTS_ROOT}/mocks)
 include_directories(${PLAYER_ROOT}/externals)
 include_directories(${PLAYER_ROOT}/drm/ocdm)
-include_directories(${PLAYER_ROOT}/externals/playersecmanager)
 include_directories(${PLAYER_ROOT}/drm/helper)
 include_directories(${PLAYER_ROOT}/playerLogManager)
 include_directories(${PLAYER_ROOT}/baseConversion)
-
 set(TEST_SOURCES FunctionalTests.cpp
 		 OcdmBasicSessionAdapterTests.cpp)
 
-set(PLAYER_SOURCES ${PLAYER_ROOT}/drm/ocdm/OcdmBasicSessionAdapter.cpp
+set(AAMP_SOURCES ${PLAYER_ROOT}/drm/ocdm/OcdmBasicSessionAdapter.cpp
                  ${PLAYER_ROOT}/drm/helper/DrmHelper.cpp
                  ${PLAYER_ROOT}/drm/DrmSession.cpp
 		 ${PLAYER_ROOT}/playerLogManager/PlayerLogManager.cpp
-     ${PLAYER_ROOT}/ProcessHandler.cpp
-     ${PLAYER_ROOT}/PlayerUtils.cpp
-     ${PLAYER_ROOT}/baseConversion/_base64.cpp)
-
+		 ${PLAYER_ROOT}/playerLogManager/PlayerLogManager.cpp
+                 ${PLAYER_ROOT}/ProcessHandler.cpp
+                 ${PLAYER_ROOT}/PlayerUtils.cpp
+                 ${PLAYER_ROOT}/baseConversion/_base64.cpp)
 
 #[[class OCDMBasicSessionAdapter inherits from class OCDMSessionAdapter,
 which inherits from the abstract class DrmSession.
@@ -61,7 +63,7 @@ However, OCDMSessionAdapter has a more complex implementation, so a fake has bee
 
 add_executable(${EXEC_NAME}
                ${TEST_SOURCES}
-               ${PLAYER_SOURCES})
+               ${AAMP_SOURCES})
 set_target_properties(${EXEC_NAME} PROPERTIES FOLDER "utests")
 
 if (CMAKE_XCODE_BUILD_SYSTEM)
@@ -80,6 +82,6 @@ if (COVERAGE_ENABLED)
                               DEPENDENCIES ${EXEC_NAME})
 endif()
 
-target_link_libraries(${EXEC_NAME} fakes -lpthread ${OS_LD_FLAGS} ${GMOCK_LINK_LIBRARIES} ${GTEST_LINK_LIBRARIES})
+target_link_libraries(${EXEC_NAME} fakes -lpthread ${OS_LD_FLAGS} ${GMOCK_LINK_LIBRARIES} ${GTEST_LINK_LIBRARIES} ${LIBCJSON_LINK_LIBRARIES})
 
 player_utest_run_add(${EXEC_NAME})
