@@ -34,7 +34,7 @@
  */
 DrmSession* DrmSessionFactory::GetDrmSession(DrmHelperPtr drmHelper, DrmCallbacks *drmCallbacks)
 {
-	if (!drmHelper) {
+	if (!drmHelper || !drmCallbacks) {
         // Optionally log error or handle it gracefully
         return nullptr;
     }
