@@ -9,12 +9,21 @@ jobs:
   build-player-interface-on-pr:
     name: Build player-interface component in github rdkcentral
     runs-on: ubuntu-latest
-    #container:
-     # image: ghcr.io/rdkcentral/docker-rdk-ci:latest
+    container:
+     image: ghcr.io/rdkcentral/docker-rdk-ci:latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       
       - name: native build
-        run: yes | ./install-middleware.sh -s subtec
+        run: |
+         apt-get update
+         apt-get install -y sudo
+         sudo apt-get install -y python3-pip
+         sudo apt remove -y meson || true
+         sudo pip3 install --upgrade meson
+         hash -r
+         yes | ./install-middleware.sh -s subtec
+        env:
+          GITHUB_TOKEN: ${{ secrets.RDKCM_RDKE }}
