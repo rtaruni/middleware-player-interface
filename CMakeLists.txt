@@ -168,6 +168,8 @@ install(FILES closedcaptions/CCTrackInfo.h
 	subtitle/subtitleParser.h
 	subtec/subtecparser/WebVttSubtecParser.hpp
 	subtec/subtecparser/TtmlSubtecParser.hpp
+    GstUtils.h
+	PlayerMetadata.hpp
 	subtec/subtecparser/WebvttSubtecDevInterface.hpp
 	subtec/subtecparser/TextStyleAttributes.h
 	subtec/libsubtec/SubtecPacket.hpp

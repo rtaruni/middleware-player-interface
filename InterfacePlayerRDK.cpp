@@ -3004,31 +3004,25 @@ bool InterfacePlayerRDK::SendHelper(int type, const void *ptr, size_t len, doubl
 				interfacePlayerPriv->ForwardBuffersToAuxPipeline(buffer, mPauseInjector, this);
 			}
 #ifdef SUPPORTS_MP4DEMUX
-			if( mediaType<2 && m_gstConfigParam->useMp4Demux &&
-			   !copy /* avoid using this path for hls/ts */ )
+			if( m_gstConfigParam->useMp4Demux )
 			{
-				static Mp4Demux *m_mp4Demux[2];
-				Mp4Demux *mp4Demux = m_mp4Demux[mediaType];
-				if( !mp4Demux )
-				{
-					mp4Demux = new Mp4Demux();
-					m_mp4Demux[mediaType] = mp4Demux;
-				}
-				mp4Demux->Parse(ptr,len);
+				static uint32_t timescale[2]; // FIXME!
+				// some lldash streams don't have timescale in media segments
+				Mp4Demux *mp4Demux = new Mp4Demux(ptr,len,timescale[mediaType]);
 				int count = mp4Demux->count();
 				if( count>0 )
 				{ // media segment
 					for( int i=0; i<count; i++ )
 					{
-						size_t sampleLen = mp4Demux->getLen(i);
+						size_t len = mp4Demux->getLen(i);
 						double pts = mp4Demux->getPts(i);
 						double dts = mp4Demux->getDts(i);
 						double dur = mp4Demux->getDuration(i);
-						gpointer data = g_malloc(sampleLen);
+						gpointer data = g_malloc(len);
 						if( data )
 						{
-							memcpy( data, mp4Demux->getPtr(i), sampleLen );
-							GstBuffer *gstBuffer = gst_buffer_new_wrapped( data, sampleLen);
+							memcpy( data, mp4Demux->getPtr(i), len );
+							GstBuffer *gstBuffer = gst_buffer_new_wrapped( data, len);
 							GST_BUFFER_PTS(gstBuffer) = (GstClockTime)(pts * GST_SECOND);
 							GST_BUFFER_DTS(gstBuffer) = (GstClockTime)(dts * GST_SECOND);
 							GST_BUFFER_DURATION(gstBuffer) = (GstClockTime)(dur * 1000000000LL);
@@ -3047,8 +3041,10 @@ bool InterfacePlayerRDK::SendHelper(int type, const void *ptr, size_t len, doubl
 				}
 				else
 				{ // init header
+					timescale[mediaType] = mp4Demux->timescale;
 					mp4Demux->setCaps( GST_APP_SRC(stream->source) );
 				}
+				delete mp4Demux;
 				if( !copy )
 				{
 					g_free((gpointer)ptr);

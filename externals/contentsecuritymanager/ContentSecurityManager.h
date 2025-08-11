@@ -30,6 +30,7 @@
 #include "ContentSecurityManagerSession.h"
 #include "PlayerScheduler.h"
 #include "PlayerMemoryUtils.h"
+#include "PlayerExternalUtils.h"
 #include <inttypes.h>
 #include <memory>
 #include <list>

@@ -50,8 +50,6 @@ source scripts/install_gstreamer.sh
 source scripts/install_subtec.sh
 # rialto install and build
 source scripts/install_rialto.sh
-# player interface install and build
-source scripts/install_player.sh
 #
 
 
@@ -158,11 +156,6 @@ fi
 #
 rialto_install_build_fn "${OPTION_CLEAN}"
 INSTALL_STATUS_ARR+=("rialto_install_build_fn check passed.")
-
-# Build libplayergstinterface / player interface
-#
-player_install_build_fn "${CLEAN}"
-INSTALL_STATUS_ARR+=("player_install_build check passed.")
 
 tools_print_summary_fn
 
