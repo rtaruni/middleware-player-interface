@@ -34,6 +34,10 @@
  */
 DrmSession* DrmSessionFactory::GetDrmSession(DrmHelperPtr drmHelper, DrmCallbacks *drmCallbacks)
 {
+	if (!drmHelper) {
+        // Optionally log error or handle it gracefully
+        return nullptr;
+    }
 	const std::string systemId = drmHelper->ocdmSystemId();
 
 #if defined (USE_OPENCDM_ADAPTER)

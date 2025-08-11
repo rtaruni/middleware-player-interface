@@ -52,10 +52,10 @@ include_directories(${PLAYER_ROOT}/baseConversion)
 message(GSTREAMER_INCLUDE_DIRS=${GSTREAMER_INCLUDE_DIRS})
 
 set(TEST_SOURCES DrmTestsRun.cpp
-				 #DrmSessionTests.cpp //To Do:We don't have private instance in middleware need to implement
 				 DrmUtilsTests.cpp
 				 DrmHLSTests.cpp
-				 DrmHelperTests.cpp)
+				 DrmHelperTests.cpp
+				 DrmSessionFactoryTests.cpp)
 
 set(FAKE_SOURCES ${PLAYER_ROOT}/test/utests/fakes/FakeSocUtils.cpp)
 
