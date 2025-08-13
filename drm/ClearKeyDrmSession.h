@@ -54,6 +54,7 @@ private:
 	 * @fn initDRMSession
 	 */
 	void initDRMSession();
+	
 #if OPENSSL_VERSION_NUMBER >= 0x10100000L
 	EVP_CIPHER_CTX *mOpensslCtx;
 #else

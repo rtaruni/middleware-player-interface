@@ -86,7 +86,19 @@ void ClearKeySession::setKeyId(const char* keyId, int32_t keyIDLen)
 	{
 		free(m_keyId);
 	}
+	if (keyId == nullptr || keyIDLen < 0) {
+        MW_LOG_ERR("ClearKeySession: Invalid keyId or keyIDLen %d", keyIDLen);
+		throw std::invalid_argument("Invalid keyId length");
+    }
+	if (m_keyId != NULL) {
+        free(m_keyId);
+    }
+
 	m_keyId = (unsigned char*) malloc(sizeof(unsigned char) * keyIDLen);
+	if (!m_keyId) {
+        throw std::runtime_error("Memory allocation failed for keyId");
+    }
+
 	memcpy(m_keyId, keyId, keyIDLen);
 	m_keyIdLen = keyIDLen;
 }

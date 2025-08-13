@@ -52,10 +52,11 @@ include_directories(${PLAYER_ROOT}/baseConversion)
 message(GSTREAMER_INCLUDE_DIRS=${GSTREAMER_INCLUDE_DIRS})
 
 set(TEST_SOURCES DrmTestsRun.cpp
-				 DrmUtilsTests.cpp
-				 DrmHLSTests.cpp
-				 DrmHelperTests.cpp
-				 DrmSessionFactoryTests.cpp)
+	DrmUtilsTests.cpp
+	DrmHLSTests.cpp
+	DrmHelperTests.cpp
+	DrmSessionFactoryTests.cpp
+	ClearKeyDrmSessionTests.cpp)
 
 set(FAKE_SOURCES ${PLAYER_ROOT}/test/utests/fakes/FakeSocUtils.cpp)
 
@@ -77,6 +78,7 @@ set(PLAYER_SOURCES ${PLAYER_ROOT}/drm/DrmUtils.cpp
 					${PLAYER_ROOT}/drm/helper/ClearKeyHelper.cpp
 					${PLAYER_ROOT}/drm/helper/WidevineDrmHelper.cpp
 					${PLAYER_ROOT}/drm/helper/PlayReadyHelper.cpp
+					${PLAYER_ROOT}/drm/ClearKeyDrmSession.cpp
 					${PLAYER_ROOT}/playerLogManager/PlayerLogManager.cpp
 					${UTESTS_ROOT}/drm/mocks/gstMocks.c
 					${PLAYER_ROOT}/ProcessHandler.cpp
@@ -116,6 +118,8 @@ if (COVERAGE_ENABLED)
 							  DEPENDENCIES ${EXEC_NAME})
 endif()
 
-target_link_libraries(${EXEC_NAME} ${UUID_LINK_LIBRARIES} ${OS_LD_FLAGS} pthread -ldl ${GLIB_LINK_LIBRARIES} ${LIBCJSON_LINK_LIBRARIES} ${GMOCK_LINK_LIBRARIES} ${GTEST_LINK_LIBRARIES} ${GOBJECT_LINK_LIBRARIES} fakes)
+find_package(OpenSSL REQUIRED)
+target_link_libraries(${EXEC_NAME} PRIVATE OpenSSL::Crypto 
+						${UUID_LINK_LIBRARIES} ${OS_LD_FLAGS} pthread -ldl ${GLIB_LINK_LIBRARIES} ${LIBCJSON_LINK_LIBRARIES} ${GMOCK_LINK_LIBRARIES} ${GTEST_LINK_LIBRARIES} ${GOBJECT_LINK_LIBRARIES} fakes )
 
 player_utest_run_add(${EXEC_NAME})
