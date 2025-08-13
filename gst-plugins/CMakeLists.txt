@@ -19,6 +19,7 @@
 
 cmake_minimum_required (VERSION 2.6)
 project (GST-PLUGINS)
+set(CMAKE_CXX_STANDARD 17)
 
 set(MW_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../")
 
@@ -29,17 +30,16 @@ find_package(PkgConfig REQUIRED)
 message("using gstreamer-1.0")
 pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
 pkg_check_modules(GSTREAMERBASE REQUIRED gstreamer-app-1.0)
+pkg_check_modules(GSTREAMERVIDEO REQUIRED gstreamer-video-1.0)
 
 pkg_check_modules(CURL REQUIRED libcurl)
+pkg_check_modules(UUID REQUIRED uuid)
 
 # Mac OS X
 if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
     set(OS_CXX_FLAGS "${OS_CXX_FLAGS} -g -x objective-c++")
     set(OS_LD_FLAGS "${OS_LD_FLAGS} -framework Cocoa")
     string(STRIP ${OS_LD_FLAGS} OS_LD_FLAGS)
-    set(CLI_LD_FLAGS "${CLI_LD_FLAGS} -lgstvideo-1.0")
-    string(STRIP ${CLI_LD_FLAGS} CLI_LD_FLAGS)
-    #set(AAMP_OS_SOURCES cocoa_window.mm) #to be decided
 endif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
 
 find_package (Threads REQUIRED)
@@ -51,7 +51,7 @@ include_directories(${GSTREAMERBASE_INCLUDE_DIRS})
 include_directories(${MW_ROOT}/closedcaptions)
 include_directories(${MW_ROOT})
 
-set(GST_COMMON_DEPENDENCIES ${OS_LD_FLAGS} ${GSTREAMERBASE_LIBRARIES} ${GSTREAMER_LIBRARIES} ${CURL_LIBRARIES} ${CLI_LD_FLAGS} -ldl -luuid ${SEC_CLIENT_LIB})
+set(GST_COMMON_DEPENDENCIES ${OS_LD_FLAGS} ${GSTREAMERBASE_LINK_LIBRARIES} ${GSTREAMERVIDEO_LINK_LIBRARIES} ${GSTREAMER_LINK_LIBRARIES} ${CURL_LINK_LIBRARIES} ${UUID_LINK_LIBRARIES} ${CLI_LD_FLAGS} ${SEC_CLIENT_LIB})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-multichar -std=c++11")
 
