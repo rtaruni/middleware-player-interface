@@ -56,7 +56,10 @@ set(TEST_SOURCES DrmTestsRun.cpp
 	DrmHLSTests.cpp
 	DrmHelperTests.cpp
 	DrmSessionFactoryTests.cpp
-	ClearKeyDrmSessionTests.cpp)
+	DrmMemorySystemTests.cpp
+	ClearKeyDrmSessionTests.cpp
+	#PlayerHlsDrmSessionInterfaceTests.cpp
+	DrmDataTests.cpp)
 
 set(FAKE_SOURCES ${PLAYER_ROOT}/test/utests/fakes/FakeSocUtils.cpp)
 

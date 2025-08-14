@@ -52,7 +52,9 @@ DrmData::DrmData() : data("")
  */
 DrmData::DrmData(const char *dataPtr, size_t dataLength) : data("")
 {
-		data.assign(dataPtr,dataLength);
+		if (dataPtr != nullptr && dataLength > 0) {
+        data.assign(dataPtr, dataLength);
+    }
 }
 
 /**
@@ -89,12 +91,11 @@ size_t DrmData::getDataLength()
  */
 void DrmData::setData(const char *dataPtr, size_t dataLength)
 {
-	if(!data.empty())
-	{
-		data.clear();
-	}
-	data.assign(dataPtr,dataLength);
+	if(dataPtr != nullptr && dataLength > 0) {
+		data.assign(dataPtr,dataLength);
+	}	
 }
+	
 
 /**
  *  @brief  Appends DrmData with given data.
