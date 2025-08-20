@@ -34,6 +34,41 @@
 #include <gmock/gmock.h>
 #include <stdio.h>
 #include "PlayerHlsDrmSessionInterface.h"
+#include "MockDrmSession.h"
+#include "MockHlsDrmSession.h"
+
+
+class FakeHlsDrmSessionManagerTests : public ::testing::Test
+{
+protected:
+	void SetUp() override
+	{
+	}
+
+	void TearDown() override
+	{
+	}
+
+public:
+};
+
+class PlayerHlsDrmSessionInterfaceTests : public ::testing::Test
+{
+protected:
+    void SetUp() override
+    {
+
+    }   
+
+    void TearDown() override
+    {
+
+    }
+
+public:
+};
+
+
 
 /**
  * @brief Positive test for createSession with a valid positive stream type.
@@ -53,7 +88,7 @@
  * | :---------------:| -------------------------------------------------------------------- | ----------------------------------------- | ---------------------------------------------------- | ----------- |
  * | 01               | Invoke createSession with drmInfo (default) and streamType = 10        | drmInfo = default, streamType = 10          | API returns nullptr and ASSERT_EQ validates the result | Should Pass |
  */
-TEST_F(FakeHlsDrmSessionManager, PositiveStreamType) {
+TEST_F(FakeHlsDrmSessionManagerTests, PositiveStreamType) {
     std::cout << "Entering PositiveStreamType test" << std::endl;
     DrmInfo drmInfo;
     int streamType = 10;
@@ -64,7 +99,6 @@ TEST_F(FakeHlsDrmSessionManager, PositiveStreamType) {
     std::cout << "createSession returned: " << (session == nullptr ? "nullptr" : "non-null") << std::endl;
     
     ASSERT_EQ(session, nullptr);
-    
     std::cout << "Exiting PositiveStreamType test" << std::endl;
 }
 
@@ -88,7 +122,7 @@ TEST_F(FakeHlsDrmSessionManager, PositiveStreamType) {
  * | 02 | Invoke createSession API with invalid streamType | drmInfo = default, streamType = -1 | API returns nullptr indicating failure for invalid stream type input | Should Fail |
  * | 03 | Verify that the returned session is nullptr using ASSERT_EQ | session == nullptr | Assertion passes confirming the API's correct error handling | Should be successful |
  */
-TEST_F(FakeHlsDrmSessionManager, NegativeStreamType) {
+TEST_F(FakeHlsDrmSessionManagerTests, NegativeStreamType) {
     std::cout << "Entering NegativeStreamType test" << std::endl;   
     DrmInfo drmInfo;
     int streamType = -1;
@@ -122,7 +156,7 @@ TEST_F(FakeHlsDrmSessionManager, NegativeStreamType) {
  * | 01               | Create default constructed FakeHlsDrmSessionManager and DrmInfo objects   | manager = FakeHlsDrmSessionManager(), drmInfo = DrmInfo()     | Objects instantiated with default values                                    | Should be successful |
  * | 02               | Invoke isDrmSupported with default DrmInfo                              | input: drmInfo.method = default, drmInfo.mediaFormat = default| Returns boolean value indicating whether DRM is supported (expected to pass)    | Should Pass     |
  */
-TEST_F(FakeHlsDrmSessionManager, DefaultConstructedDrmInfo) {
+TEST_F(FakeHlsDrmSessionManagerTests, DefaultConstructedDrmInfo) {
     std::cout << "Entering DefaultConstructedDrmInfo test" << std::endl;
     // Create a default instance of FakeHlsDrmSessionManager using default constructor
     FakeHlsDrmSessionManager manager;
@@ -163,7 +197,7 @@ TEST_F(FakeHlsDrmSessionManager, DefaultConstructedDrmInfo) {
  * | 04 | Register the valid callback lambda via RegisterGetHlsDrmSessionCb | Input: validCallback; output: callback registration within fakeManager | Callback is registered correctly within FakeHlsDrmSessionManager | Should Pass |
  * | 05 | Log the exit from the test case | No inputs, output: "Exiting RegisterValidCallbackAndVerifyStorage test" printed | Log message printed indicating end of test | Should be successful |
  */
-TEST_F(FakeHlsDrmSessionManager, RegisterValidCallbackAndVerifyStorage) {
+TEST_F(FakeHlsDrmSessionManagerTests, RegisterValidCallbackAndVerifyStorage) {
     std::cout << "Entering RegisterValidCallbackAndVerifyStorage test" << std::endl;
     FakeHlsDrmSessionManager fakeManager;
     int callbackInvoked = 0;
@@ -200,7 +234,7 @@ TEST_F(FakeHlsDrmSessionManager, RegisterValidCallbackAndVerifyStorage) {
  * | 02               | Invoke RegisterGetHlsDrmSessionCb with an empty callback on fakeManager.     | input: emptyCallback = default constructed, fakeManager instance registered via API call         | The empty callback is registered with fakeManager without errors (API returns void).            | Should Pass   |
  * | 03               | Print the exiting test log message.                                         | Message = "Exiting RegisterEmptyCallbackAndVerifyStorage test"                                 | The exiting log is printed.                                                                     | Should be successful |
  */
-TEST_F(FakeHlsDrmSessionManager, RegisterEmptyCallbackAndVerifyStorage) {
+TEST_F(FakeHlsDrmSessionManagerTests, RegisterEmptyCallbackAndVerifyStorage) {
     std::cout << "Entering RegisterEmptyCallbackAndVerifyStorage test" << std::endl;
     FakeHlsDrmSessionManager fakeManager;
     std::function<void(std::shared_ptr<HlsDrmBase>&, std::shared_ptr<DrmHelper>&, DrmSession*&, int)> emptyCallback;
@@ -227,19 +261,22 @@ TEST_F(FakeHlsDrmSessionManager, RegisterEmptyCallbackAndVerifyStorage) {
  * | :----:           | ------------------------------------------------------------------ | --------------------------------------------------------------------- | ----------------------------------------------------------------------  | ----------- |
  * | 01               | Invoke RegisterGetHlsDrmSessionCb with a valid callback lambda       | playerHlsDrmSessionInterface = instance, validCallback = lambda       | Callback registered successfully; appropriate output messages displayed | Should Pass |
  */
-TEST_F(FakeHlsDrmSessionManager, RegisterValidCallback) {
+TEST_F(PlayerHlsDrmSessionInterfaceTests, RegisterValidCallback) {
     std::cout << "Entering RegisterValidCallback test" << std::endl;
-    PlayerHlsDrmSessionInterface playerHlsDrmSessionInterface;
-    std::cout << "Created PlayerHlsDrmSessionInterface object" << std::endl;
+    PlayerHlsDrmSessionInterface* playerHlsDrmSessionInterface = PlayerHlsDrmSessionInterface::getInstance();
+    ASSERT_NE(playerHlsDrmSessionInterface, nullptr);
+
     auto validCallback = [] (std::shared_ptr<HlsDrmBase>& bridge,
                              std::shared_ptr<DrmHelper>& drmHelper,
                              DrmSession*& session,
                              int streamType) {
         std::cout << "Invoking RegisterGetHlsDrmSessionCb with valid callback lambda" << std::endl;
     };
-    playerHlsDrmSessionInterface.RegisterGetHlsDrmSessionCb(validCallback);
+
+    playerHlsDrmSessionInterface->RegisterGetHlsDrmSessionCb(validCallback);
     std::cout << "Exiting RegisterValidCallback test" << std::endl;
 }
+
 
 /**
  * @brief Verify that an empty callback is registered safely without errors.
@@ -263,12 +300,14 @@ TEST_F(FakeHlsDrmSessionManager, RegisterValidCallback) {
  * | 04 | Invoke RegisterGetHlsDrmSessionCb with an empty callback | input: emptyCallback = empty | API accepts empty callback without error | Should Pass |
  * | 05 | Log exit message indicating the end of the test | None | "Exiting RegisterEmptyCallback test" message printed | Should be successful |
  */
-TEST_F(PlayerHlsDrmSessionInterface, RegisterEmptyCallback) {
+TEST_F(PlayerHlsDrmSessionInterfaceTests, RegisterEmptyCallback) {
     std::cout << "Entering RegisterEmptyCallback test" << std::endl;
-    PlayerHlsDrmSessionInterface playerHlsDrmSessionInterface;
+    PlayerHlsDrmSessionInterface* drmSessionInterface = PlayerHlsDrmSessionInterface::getInstance();
+    ASSERT_NE(drmSessionInterface, nullptr);
+
     std::function<void(std::shared_ptr<HlsDrmBase>&, std::shared_ptr<DrmHelper>&, DrmSession*&, int)> emptyCallback;
     std::cout << "Invoking RegisterGetHlsDrmSessionCb with empty callback" << std::endl;
-    playerHlsDrmSessionInterface.RegisterGetHlsDrmSessionCb(emptyCallback);
+    drmSessionInterface->RegisterGetHlsDrmSessionCb(emptyCallback);
     std::cout << "Exiting RegisterEmptyCallback test" << std::endl;
 }
 
@@ -293,29 +332,29 @@ TEST_F(PlayerHlsDrmSessionInterface, RegisterEmptyCallback) {
  * | 03               | Invoke the createSession method with the prepared drmInfo and positive streamType, and capture output. | drmInfo: default, streamType = 15                           | A session pointer is returned which is not null.                                 | Should Pass   |
  * | 04               | Validate that the returned session pointer is not null using the EXPECT_NE assertion check.      | session pointer from createSession invocation               | Assertion confirms that the session pointer is non-null.                         | Should Pass   |
  */
-TEST_F(PlayerHlsDrmSessionInterface, ValidDRMSession_PositiveType)
-{
+class DummyHlsDrmSessionManager : public PlayerHlsDrmSessionInterfaceBase {
+public:
+    std::shared_ptr<HlsDrmBase> createSession(const DrmInfo&, int) override {
+        return std::make_shared<MockHlsDrmSession>();
+    }    
+};
+
+TEST_F(PlayerHlsDrmSessionInterfaceTests, ValidDRMSession_PositiveType) {
     std::cout << "Entering ValidDRMSession_PositiveType test" << std::endl;
- 
-    FakeHlsDrmSessionManager fakeManager;
+    auto drmSessionInterface = PlayerHlsDrmSessionInterface::getInstance();
+    ASSERT_NE(drmSessionInterface, nullptr);
 
-    // Example: using a public constructor
-    PlayerHlsDrmSessionInterface drmSessionInterface(&fakeManager);
+    drmSessionInterface->setSessionManager(new DummyHlsDrmSessionManager());
 
-    // OR Example: using a factory method
-    auto drmSessionInterface = PlayerHlsDrmSessionInterface::create(&fakeManager);
-
-    // Create instance of PlayerHlsDrmSessionInterface using default constructor
-    //PlayerHlsDrmSessionInterface drmSessionInterface;
-    // Prepare DrmInfo input
     DrmInfo drmInfo;
     int streamType = 15;
-    std::cout << "Invoking createSession with valid drminfo and positive streamType: " << streamType << std::endl;
-    // Invoke the method under test
-    std::shared_ptr<HlsDrmBase> session = drmSessionInterface.createSession(drmInfo, streamType);
+
+    auto session = drmSessionInterface->createSession(drmInfo, streamType);
     EXPECT_NE(session, nullptr);
+
     std::cout << "Exiting ValidDRMSession_PositiveType test" << std::endl;
 }
+
 
 /**
  * @brief Test to ensure DRM session creation fails for negative stream type.
@@ -338,14 +377,27 @@ TEST_F(PlayerHlsDrmSessionInterface, ValidDRMSession_PositiveType)
  * | 03 | Invoke createSession with a valid drmInfo and negative streamType (-1) | drmInfo, streamType = -1 | API returns nullptr | Should Fail |
  * | 04 | Assert that the return value is nullptr and print exiting test message | EXPECT_EQ(session, nullptr) check, exit message printed | EXPECT_EQ passes confirming no session is created | Should be successful |
  */
-TEST_F(PlayerHlsDrmSessionInterface, DRMSession_NegativeStreamType)
+TEST_F(PlayerHlsDrmSessionInterfaceTests, DRMSession_NegativeStreamType)
 {
     std::cout << "Entering DRMSession_NegativeStreamType test" << std::endl;    
-    PlayerHlsDrmSessionInterface drmSessionInterface;    
+    PlayerHlsDrmSessionInterface* drmSessionInterface = PlayerHlsDrmSessionInterface::getInstance();
+    ASSERT_NE(drmSessionInterface, nullptr);
+
+
+// Register a dummy callback to avoid bad_function_call
+    auto dummyCallback = [](std::shared_ptr<HlsDrmBase>& bridge,
+                            std::shared_ptr<DrmHelper>& drmHelper,
+                            DrmSession*& session,
+                            int streamType) {
+        // For negative stream type, no session is created
+        session = nullptr;
+    };
+    drmSessionInterface->RegisterGetHlsDrmSessionCb(dummyCallback);
+
     DrmInfo drmInfo;
     int streamType = -1;
     std::cout << "Invoking createSession with with valid drminfo and negative streamType: " << streamType << std::endl;
-    std::shared_ptr<HlsDrmBase> session = drmSessionInterface.createSession(drmInfo, streamType);
+    std::shared_ptr<HlsDrmBase> session = drmSessionInterface->createSession(drmInfo, streamType);
     EXPECT_EQ(session, nullptr);
     std::cout << "Exiting DRMSession_NegativeStreamType test" << std::endl;
 }
@@ -368,7 +420,7 @@ TEST_F(PlayerHlsDrmSessionInterface, DRMSession_NegativeStreamType)
  * | :----: | --------- | ---------- |-------------- | ----- |
  * | 01 | Invoke PlayerHlsDrmSessionInterface::getInstance() to create the instance | input: None, output: instance pointer | The returned instance pointer should not be nullptr and the assertion check passes | Should Pass |
  */
-TEST_F(PlayerHlsDrmSessionInterface, ValidInstanceCreation) {
+TEST_F(PlayerHlsDrmSessionInterfaceTests, ValidInstanceCreation) {
     std::cout << "Entering ValidInstanceCreation test" << std::endl;
     std::cout << "Invoking PlayerHlsDrmSessionInterface::getInstance()" << std::endl;
     PlayerHlsDrmSessionInterface* instance = PlayerHlsDrmSessionInterface::getInstance();
