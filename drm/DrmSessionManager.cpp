@@ -422,6 +422,7 @@ DrmSession* DrmSessionManager::createDrmSession(int &err, std::shared_ptr<DrmHel
 		/* This should never happen, since the caller should have already
 		ensure the provided DRMInfo is supported using hasDRM */
 		MW_LOG_ERR(" Failed to create DRM Session invalid parameters ");
+		err = MW_DRM_INIT_FAILED;
 		return nullptr;
 	}
 
@@ -524,8 +525,14 @@ KeyState DrmSessionManager::getDrmSession(int &err, std::shared_ptr<DrmHelper> d
 
 	std::vector<uint8_t> keyIdArray;
 	std::map<int, std::vector<uint8_t>> keyIdArrays;
-	drmHelper->getKeys(keyIdArrays);
 
+	if( !drmHelper || !Instance )
+	{
+		MW_LOG_ERR(" Failed to get DRM Session invalid parameters ");
+		err = MW_INVALID_DRM_KEY;
+		return code;
+	}
+	drmHelper->getKeys(keyIdArrays);
 	drmHelper->getKey(keyIdArray);
 
 	//Need to Check , Are all Drm Schemes/Helpers capable of providing a non zero keyId?
@@ -729,6 +736,12 @@ KeyState DrmSessionManager::initializeDrmSession(std::shared_ptr<DrmHelper> drmH
 
 	std::vector<uint8_t> drmInitData;
 	drmHelper->createInitData(drmInitData);
+	if( !drmHelper ||  sessionSlot >= 0 )
+	{
+		MW_LOG_ERR("InitializeDrmSession Fails due to invalid parameter");
+		err = MW_DRM_INIT_FAILED;
+		return code;
+	}
 
 	std::lock_guard<std::mutex> guard(drmSessionContexts[sessionSlot].sessionMutex);
 	MW_LOG_INFO("DRM session Custom Data - %s ", mCustomData.empty()?"NULL":mCustomData.c_str());
