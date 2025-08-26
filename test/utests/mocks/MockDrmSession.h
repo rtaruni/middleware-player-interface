@@ -39,5 +39,6 @@ public:
 	MOCK_METHOD(void, setKeyId, (const std::vector<uint8_t>& keyId), (override));
 #endif
 };
+extern MockDrmSession *g_mockDrmSession;
 
 #endif // MOCK_DRMSession_H

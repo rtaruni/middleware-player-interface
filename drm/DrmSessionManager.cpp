@@ -734,16 +734,23 @@ KeyState DrmSessionManager::initializeDrmSession(std::shared_ptr<DrmHelper> drmH
 {
 	KeyState code = KEY_ERROR;
 
-	std::vector<uint8_t> drmInitData;
-	drmHelper->createInitData(drmInitData);
-	if( !drmHelper ||  sessionSlot >= 0 )
+	if( !drmHelper)
 	{
 		MW_LOG_ERR("InitializeDrmSession Fails due to invalid parameter");
 		err = MW_DRM_INIT_FAILED;
 		return code;
 	}
 
+	if( sessionSlot < 0 )
+	{
+        err = MW_DRM_SESSIONID_EMPTY;   // define this error code in your enums/consts
+        return KEY_ERROR_EMPTY_SESSION_ID;
+	}
+
+	std::vector<uint8_t> drmInitData;
 	std::lock_guard<std::mutex> guard(drmSessionContexts[sessionSlot].sessionMutex);
+	drmHelper->createInitData(drmInitData);
+
 	MW_LOG_INFO("DRM session Custom Data - %s ", mCustomData.empty()?"NULL":mCustomData.c_str());
 	drmSessionContexts[sessionSlot].drmSession->generateDRMSession(drmInitData.data(), (uint32_t)drmInitData.size(), mCustomData);
 
